@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 
-import pandaVideo from '../assets/videos/bv_2025_planting.mp4';
 import pandaThumbnail from '../assets/videos/Thumbnail.jpg';
-// const pandaThumbnail = pandaThumbnail;
+// const pandaVideo = "https://www.dropbox.com/scl/fi/jo5tk1r07lecgdktcjbgg/Video.mp4?rlkey=vrq87k2vq6wjzf6a7rktwyiyi&st=13newsf8&dl=0";
+const pandaVideo = "https://www.dropbox.com/scl/fi/jo5tk1r07lecgdktcjbgg/Video.mp4?rlkey=vrq87k2vq6wjzf6a7rktwyiyi&st=13newsf8&dl=1";
 
 export default function PandaSectionG() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
