@@ -32,7 +32,6 @@ export default function PandaSectionB() {
           <h1
             style={{
               fontSize: isMobile ? "clamp(48px,12vw,80px)" : "clamp(64px,8vw,110px)",
-              fontWeight: "700",
               fontFamily: "'Georgia', serif",
               fontWeight: "normal",
               lineHeight: 1.03,

@@ -145,11 +145,9 @@ export default function PandaSectionA() {
             display: "flex",
             flexDirection: "column",
             alignItems: isMobile ? "center" : "flex-start",
-            alignItems: isMobile ? "center" : "flex-start",
             position: "absolute",
             right:100,
             top:120,
-            //  background:'Yellow'
           }}>
             {/* A TREE-PLANTING MOVEMENT */}
             <div style={{
