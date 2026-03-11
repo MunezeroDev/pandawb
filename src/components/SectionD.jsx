@@ -130,8 +130,9 @@ export default function PandaSectionD() {
           letterSpacing: "-1px",
           color: "#1a1a1a",
         }}>
-          <span style={{ color: "#00bf63", fontWeight: "700" }}>Panda</span>
-          {" "}Features
+          More
+          {" "}
+          <span style={{ color: "#00bf63", fontWeight: "700" }}>Features</span>
         </h1>
       </header>
 
