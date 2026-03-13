@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import boardscore from "../assets/pandawimages/BoardScore.png" 
-import networkIssues from "../assets/pandawimages/NetworkIssue.png" 
-import events from "../assets/pandawimages/SucessEventCreated.png" 
-import carbon_credits from "../assets/pandawimages/impact_token.png" 
+import boardscore from "../assets/pandawimages/BoardScore.webp" 
+import networkIssues from "../assets/pandawimages/NetworkIssue.webp" 
+import events from "../assets/pandawimages/SucessEventCreated.webp" 
+import carbon_credits from "../assets/pandawimages/impact_token.webp" 
 
 const features = [
   {

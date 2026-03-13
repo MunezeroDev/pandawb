@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
-import logo from '../assets/panda-logo.png';
-import phoneMockup from '../assets/panda_app_mockup.png'; 
-import underline from '../assets/svg_underline.png'; 
+import logo from '../assets/panda-logo.webp';
+import phoneMockup from '../assets/panda_app_mockup.webp'; 
+import underline from '../assets/svg_underline.webp'; 
 
 const norwesterStyle = `
   @import url('https://fonts.cdnfonts.com/css/norwester');

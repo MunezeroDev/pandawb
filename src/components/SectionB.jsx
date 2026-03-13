@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import aboutUs from '../assets/AboutUs.jpg'; 
+import aboutUs from '../assets/AboutUs.webp'; 
 
 const blackSans =  `@import url('https://fonts.cdnfonts.com/css/black-sans');`;
 

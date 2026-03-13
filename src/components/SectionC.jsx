@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import treeUpload from "../assets/pandawimages/treeupload.jpg" 
-import collages from "../assets/pandawimages/collage.jpg" 
-import location from "../assets/pandawimages/location.png" 
-import your_forest from "../assets/pandawimages/your_forest.png" 
+import treeUpload from "../assets/pandawimages/treeupload.webp" 
+import collages from "../assets/pandawimages/collage.webp" 
+import location from "../assets/pandawimages/location.webp" 
+import your_forest from "../assets/pandawimages/your_forest.webp" 
 
 const features = [
   {

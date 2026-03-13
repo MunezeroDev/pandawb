@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
  
-import step1 from '../assets/step_1.png'; 
-import step2 from '../assets/step_2.png'; 
+import step1 from '../assets/step_1.webp'; 
+import step2 from '../assets/step_2.webp'; 
 
 export default function PandaSectionE() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);

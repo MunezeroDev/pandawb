@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-import pandaThumbnail from '../assets/videos/Thumbnail.jpg';
+import pandaThumbnail from '../assets/videos/Thumbnail.webp';
 // const pandaVideo = "https://www.dropbox.com/scl/fi/jo5tk1r07lecgdktcjbgg/Video.mp4?rlkey=vrq87k2vq6wjzf6a7rktwyiyi&st=13newsf8&dl=0";
 const pandaVideo = "https://www.dropbox.com/scl/fi/jo5tk1r07lecgdktcjbgg/Video.mp4?rlkey=vrq87k2vq6wjzf6a7rktwyiyi&st=13newsf8&dl=1";
 
