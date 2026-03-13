@@ -25,3 +25,5 @@ node_modules
 # *.jpg
 # *.png
 commands.md
+scripts/
+png_jpg/
