@@ -18,11 +18,9 @@ export default function PandaSectionB() {
       <div
         style={{
           fontFamily: "'Georgia', 'Times New Roman', serif",
-          // background: "#f5f5f0",
-          paddingTop:"6rem", // to be deleted
           minHeight: "100vh",
-          padding: isMobile ? "20px 24px 0" : "28px 52px 0",
-          marginLeft: "80px",
+          padding: isMobile ? "40px 24px 48px" : "28px 52px 0",
+          marginLeft: isMobile ? "0" : "80px",
           boxSizing: "border-box",
           overflow: "hidden",
         }}
@@ -41,7 +39,7 @@ export default function PandaSectionB() {
             }}
           >
             About{" "}
-            <span style={{  color: "#00bf63" }}>Panda</span>
+            <span style={{ color: "#00bf63" }}>Panda</span>
           </h1>
         </header>
 
@@ -50,11 +48,11 @@ export default function PandaSectionB() {
           style={{
             display: "flex",
             flexDirection: isMobile ? "column" : "row",
-            gap: isMobile ? "32px" : "60px",
+            gap: isMobile ? "28px" : "60px",
             alignItems: "flex-start",
           }}
         >
-          {/* LEFT — photo */}
+          {/* Photo — full width on mobile */}
           <div
             style={{
               flexShrink: 0,
@@ -74,17 +72,17 @@ export default function PandaSectionB() {
             />
           </div>
 
-          {/* RIGHT — text + button */}
+          {/* Text + button */}
           <div
             style={{
               flex: 1,
               display: "flex",
               flexDirection: "column",
-              gap: "28px",
+              gap: isMobile ? "20px" : "28px",
               paddingTop: isMobile ? "0" : "8px",
             }}
           >
-            {/* Part A — intro paragraph */}
+            {/* Intro paragraph */}
             <p
               style={{
                 margin: 0,
@@ -137,7 +135,7 @@ export default function PandaSectionB() {
               </button>
             </div>
 
-            {/* Part B — vision paragraph */}
+            {/* Vision paragraph */}
             <p
               style={{
                 margin: 0,

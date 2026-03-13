@@ -15,7 +15,6 @@ const features = [
     description: "Panda instantly turns your tree planting moment into a beautiful shareable collage for social media.",
     image: collages,
   },
-  
   {
     title: "Geo-Mapped Location",
     description: "Track exactly where your tree is planted with a geo-mapped pin and revisit your impact on the map anytime.",
@@ -31,6 +30,59 @@ const features = [
 const FeatureCard = ({ feature, isMobile }) => {
   const [hovered, setHovered] = useState(false);
 
+  if (isMobile) {
+    return (
+      <div
+        style={{
+          borderRadius: "20px",
+          overflow: "hidden",
+          width: "min(85%, 340px)",
+          boxShadow: "0 4px 20px rgba(0,0,0,0.10)",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        {/* Image */}
+        <div style={{ height: "400px", overflow: "hidden", flexShrink: 0 }}>
+          <img
+            src={feature.image}
+            alt={feature.title}
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          />
+        </div>
+
+        {/* Green label */}
+        <div style={{
+          background: "#00bf63",
+          padding: "18px 20px 22px",
+        }}>
+          <h3 style={{
+            margin: "0 0 8px",
+            fontFamily: "'Georgia', serif",
+            fontWeight: "700",
+            fontSize: "17px",
+            color: "#fff",
+            lineHeight: 1.2,
+            textAlign: "center",
+          }}>
+            {feature.title}
+          </h3>
+          <p style={{
+            margin: 0,
+            fontSize: "13px",
+            color: "rgba(255,255,255,0.92)",
+            lineHeight: 1.6,
+            fontFamily: "'Georgia', serif",
+            textAlign: "center",
+          }}>
+            {feature.description}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Desktop card (unchanged) ──
   return (
     <div
       onMouseEnter={() => setHovered(true)}
@@ -38,7 +90,7 @@ const FeatureCard = ({ feature, isMobile }) => {
       style={{
         borderRadius: "20px",
         overflow: "hidden",
-        flex: isMobile ? "none" : "1 1 0",
+        flex: "1 1 0",
         minWidth: 0,
         cursor: "pointer",
         transform: hovered ? "translateY(-10px) scale(1.025)" : "translateY(0) scale(1)",
@@ -50,10 +102,9 @@ const FeatureCard = ({ feature, isMobile }) => {
         flexDirection: "column",
       }}
     >
-      {/* Dummy image placeholder — replace src here */}
       <div style={{
         background: "#d0d0d0",
-        height: isMobile ? "200px" : "300px",
+        height: "300px",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -62,25 +113,23 @@ const FeatureCard = ({ feature, isMobile }) => {
         fontFamily: "sans-serif",
         letterSpacing: "0.5px",
       }}>
-        {/* Replace this img tag with your actual image */}
         <img
-          src={feature.image}  // ← was hardcoded before
+          src={feature.image}
           alt={feature.title}
           style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
         />
       </div>
 
-      {/* Green label area */}
       <div style={{
         background: "#00bf63",
-        padding: isMobile ? "20px 20px 24px" : "22px 22px 28px",
+        padding: "22px 22px 28px",
         flex: 1,
       }}>
         <h3 style={{
           margin: "0 0 8px",
           fontFamily: "'Georgia', serif",
           fontWeight: "700",
-          fontSize: isMobile ? "18px" : "clamp(16px, 1.5vw, 20px)",
+          fontSize: "clamp(16px, 1.5vw, 20px)",
           color: "#fff",
           lineHeight: 1.2,
         }}>
@@ -88,7 +137,7 @@ const FeatureCard = ({ feature, isMobile }) => {
         </h3>
         <p style={{
           margin: 0,
-          fontSize: isMobile ? "14px" : "clamp(13px, 1vw, 15px)",
+          fontSize: "clamp(13px, 1vw, 15px)",
           color: "rgba(255,255,255,0.88)",
           lineHeight: 1.6,
           fontFamily: "'Georgia', serif",
@@ -114,7 +163,7 @@ export default function PandaSectionC() {
       fontFamily: "'Georgia', 'Times New Roman', serif",
       background: "#ffffff",
       minHeight: "100vh",
-      padding: isMobile ? "40px 20px" : "52px 52px 60px",
+      padding: isMobile ? "40px 20px 56px" : "52px 52px 60px",
       marginLeft: isMobile ? "0" : "80px",
       boxSizing: "border-box",
     }}>
@@ -139,8 +188,8 @@ export default function PandaSectionC() {
       <div style={{
         display: "flex",
         flexDirection: isMobile ? "column" : "row",
-        gap: isMobile ? "24px" : "28px",
-        alignItems: "stretch",
+        gap: isMobile ? "20px" : "28px",
+        alignItems: isMobile ? "center" : "stretch",
       }}>
         {features.map((feature) => (
           <FeatureCard key={feature.title} feature={feature} isMobile={isMobile} />

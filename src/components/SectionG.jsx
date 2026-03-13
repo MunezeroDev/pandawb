@@ -50,8 +50,8 @@ export default function PandaSectionG() {
     // ? { maxWidth: isMobile ? "320px" : "420px", aspectRatio: "9/16" }
     // : { maxWidth: "1100px", aspectRatio: "16/9" };
 
-    ? { maxWidth: isMobile ? "260px" : "340px", aspectRatio: "9/16" }  // ← slightly smaller portrait
-    : { maxWidth: "900px", aspectRatio: "16/9" }; 
+    ? { maxWidth: isMobile ? "85%" : "340px", aspectRatio: "9/16" }
+    : { maxWidth: "900px", aspectRatio: "16/9" };
 
   return (
     <div
@@ -60,7 +60,7 @@ export default function PandaSectionG() {
         background: "#ffffff",
         minHeight: "100vh",
         padding: isMobile ? "40px 24px" : "52px 52px",
-        marginLeft: "80px",
+        marginLeft: isMobile ? "0" : "80px",
         boxSizing: "border-box",
         overflow: "hidden",
         display: "flex",

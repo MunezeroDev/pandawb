@@ -19,7 +19,6 @@ const PhoneMockup = ({ isMobile }) => (
     src={phoneMockup}
     alt="Panda App Mockup"
     style={{
-      // width: isMobile ? "220px" : "310px",
       width: isMobile ? "180px" : "260px", 
       height: "auto",
       objectFit: "contain",
@@ -49,7 +48,7 @@ export default function PandaSectionA() {
         background: "#ffffff",
         minHeight: "100vh",
         padding: isMobile ? "20px 24px 0" : "28px 52px 0",
-        marginLeft:"80px",
+        marginLeft: isMobile ? "0" : "80px",
         boxSizing: "border-box",
         overflow: "hidden",
       }}>
@@ -61,12 +60,11 @@ export default function PandaSectionA() {
           gap: "14px",
           marginBottom: isMobile ? "28px" : "36px",
         }}>
-          {/*Logo*/}
           <img
-          src={logo}
-          alt="Panda Logo"
-          style={{ width: "clamp(110px, 18vw, 170px)"}}
-        />
+            src={logo}
+            alt="Panda Logo"
+            style={{ width: "clamp(110px, 18vw, 170px)"}}
+          />
           <span style={{
             fontFamily: "'Norwester', 'Georgia', serif",
             fontSize: isMobile ? "28px" : "48px",
@@ -77,125 +75,217 @@ export default function PandaSectionA() {
             paddingTop: "2px",
             alignSelf: "flex-end",
           }}>
-            
             Panda
           </span>
         </div>
 
-        {/* ── MAIN BODY: two-column on desktop ── */}
-        <div style={{
-          display: "flex",
-          flexDirection: isMobile ? "column" : "row",
-          alignItems: isMobile ? "flex-start" : "flex-start",
-          justifyContent: "space-between",
-          gap: isMobile ? "36px" : "0",
-        }}>
+        {/* ── MOBILE LAYOUT: single column ── */}
+        {isMobile ? (
+          <div style={{ display: "flex", flexDirection: "column" }}>
 
-          {/* LEFT: Headline + subtext + wavy line */}
-          <div style={{
-            marginTop:"2rem",
-            flex: isMobile ? "unset" : "0 0 100%",      
-            maxWidth: isMobile ? "100%" : "100%", 
-          }}>
-            <h1 style={{
-              margin: 0,
-              fontFamily: "'Georgia', serif",
-              fontSize: isMobile ? "clamp(46px, 12vw, 62px)" : "clamp(72px, 7.5vw, 108px)",
-              fontWeight: "normal",
-              color: "#1a1a1a",
-              lineHeight: 1.03,
-              display: "flex",
-              alignItems: "center",
-              flexWrap: "wrap",
-            }}>
-              Plant trees&nbsp;
-              <span style={{ fontSize: "1em" }}>🌱</span>
-            </h1>
+            {/* Headline */}
+            <div style={{ marginTop: "1rem" }}>
+              <h1 style={{
+                margin: 0,
+                fontFamily: "'Georgia', serif",
+                fontSize: "clamp(46px, 12vw, 62px)",
+                fontWeight: "normal",
+                color: "#1a1a1a",
+                lineHeight: 1.03,
+              }}>
+                Plant trees&nbsp;<span style={{ fontSize: "1em" }}>🌱</span>
+              </h1>
+              <h1 style={{
+                margin: "0 0 1rem",
+                fontSize: "clamp(46px, 12vw, 62px)",
+                color: "#00bf63",
+                lineHeight: 1.03,
+                fontFamily: "'Georgia', serif",
+                fontWeight: "normal",
+              }}>
+                Make memories.
+              </h1>
+              <p style={{
+                marginTop: "16px",
+                marginBottom: 0,
+                fontSize: "clamp(20px, 5.5vw, 28px)",
+                color: "#8e99a2",
+                lineHeight: 1.45,
+                fontFamily: "'Georgia', serif",
+                fontWeight: "400",
+              }}>
+                Fun&nbsp;meets climate action<br />
+                but it's more than that!
+              </p>
+              <WavyLine />
+            </div>
 
-            <h1 style={{
-              margin: 0,
-              fontSize: isMobile ? "clamp(46px, 12vw, 62px)" : "clamp(72px, 7.5vw, 108px)",
-              color: "#00bf63",
-              lineHeight: 1.03,
-              fontFamily: "'Georgia', serif",
-              fontWeight: "normal",
-              marginBottom:"2rem"
-            }}>
-              Make memories.
-            </h1>
-
-            <p style={{
-              marginTop: isMobile ? "20px" : "24px",
-              marginBottom: 0,
-              fontSize: isMobile ? "clamp(24px, 6vw, 32px)" : "clamp(28px, 3vw, 40px)",
-              color: "#8e99a2",
-              lineHeight: 1.45,
-              fontFamily: "'Georgia', serif",
-              fontWeight: "400",
-            }}>
-              Fun&nbsp; meets climate action<br />
-              but it's more than that!
-            </p>
-
-            <WavyLine />
-          </div>
-
-          {/* RIGHT: Tag + Phone on green blob */}
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: isMobile ? "center" : "flex-start",
-            position: "absolute",
-            right:100,
-            top:120,
-          }}>
-            {/* A TREE-PLANTING MOVEMENT */}
+            {/* "A TREE-PLANTING MOVEMENT" badge */}
             <div style={{
               display: "flex",
               alignItems: "center",
+              justifyContent: "center",
               gap: "10px",
-              marginBottom: isMobile ? "20px" : "24px",
-              alignSelf: isMobile ? "center" : "flex-end",
+              marginTop: "32px",
+              marginBottom: "16px",
             }}>
               <style>{blackSans}</style>
               <span style={{
+                fontSize: "1.1rem",
+                fontWeight: "700",
+                color: "#00bf63",
+                letterSpacing: "1.5px",
+                fontFamily: "'Black Han Sans', sans-serif",
+                textAlign: "center",
+              }}>
+                A TREE-PLANTING MOVEMENT
+              </span>
+              <span style={{ fontSize: "2rem" }}>🌍</span>
+            </div>
+
+            {/* Phone + green blob — centred */}
+            <div style={{
+              position: "relative",
+              width: "260px",
+              height: "380px",
+              alignSelf: "center",
+              marginBottom: "0",
+            }}>
+              {/* Green radial blob */}
+              <div style={{
+                position: "absolute",
+                top: 20,
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: "240px",
+                height: "240px",
+                background: "linear-gradient(to bottom, #3ecf7a, #6ddba0, #a8edcc, #d4f5e8, #e7f1ed, #fff)",
+                borderRadius: "50%",
+                zIndex: 1,
+              }} />
+              <div style={{
+                position: "absolute",
+                top: 0,
+                left: "50%",
+                transform: "translateX(-50%)",
+                zIndex: 2,
+              }}>
+                <PhoneMockup isMobile={true} />
+              </div>
+            </div>
+
+          </div>
+        ) : (
+          /* ── DESKTOP LAYOUT: unchanged ── */
+          <div style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+          }}>
+
+            {/* LEFT: Headline + subtext + wavy line */}
+            <div style={{
+              marginTop: "2rem",
+              flex: "0 0 100%",      
+              maxWidth: "100%", 
+            }}>
+              <h1 style={{
+                margin: 0,
+                fontFamily: "'Georgia', serif",
+                fontSize: "clamp(72px, 7.5vw, 108px)",
+                fontWeight: "normal",
+                color: "#1a1a1a",
+                lineHeight: 1.03,
+                display: "flex",
+                alignItems: "center",
+                flexWrap: "wrap",
+              }}>
+                Plant trees&nbsp;
+                <span style={{ fontSize: "1em" }}>🌱</span>
+              </h1>
+
+              <h1 style={{
+                margin: 0,
+                fontSize: "clamp(72px, 7.5vw, 108px)",
+                color: "#00bf63",
+                lineHeight: 1.03,
+                fontFamily: "'Georgia', serif",
+                fontWeight: "normal",
+                marginBottom: "2rem",
+              }}>
+                Make memories.
+              </h1>
+
+              <p style={{
+                marginTop: "24px",
+                marginBottom: 0,
+                fontSize: "clamp(28px, 3vw, 40px)",
+                color: "#8e99a2",
+                lineHeight: 1.45,
+                fontFamily: "'Georgia', serif",
+                fontWeight: "400",
+              }}>
+                Fun&nbsp;meets climate action<br />
+                but it's more than that!
+              </p>
+
+              <WavyLine />
+            </div>
+
+            {/* RIGHT: Tag + Phone on green blob (absolute, desktop only) */}
+            <div style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              position: "absolute",
+              right: 100,
+              top: 120,
+            }}>
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                marginBottom: "24px",
+                alignSelf: "flex-end",
+              }}>
+                <style>{blackSans}</style>
+                <span style={{
                   fontSize: "1.5rem",
                   fontWeight: "700",
                   color: "#00bf63",
                   letterSpacing: "1.5px",
                   fontFamily: "'Black Han Sans', sans-serif",
-              }}>
-                A TREE-PLANTING MOVEMENT
-              </span>
-              <span style={{ fontSize: "3rem" }}>🌍</span>
-            </div>
+                }}>
+                  A TREE-PLANTING MOVEMENT
+                </span>
+                <span style={{ fontSize: "3rem" }}>🌍</span>
+              </div>
 
-            {/* Phone + green circle */}
-            <div style={{
-              position: "relative",
-              marginLeft:"auto",
-              width: isMobile ? "260px" : "360px",
-              height: isMobile ? "400px" : "560px",
-            }}>
-              {/* Green radial blob behind phone */}
               <div style={{
-                position: "absolute",
-                top: 20,
-                right: isMobile ? "50%" : "0",
-                transform: isMobile ? "translateX(50%)" : "translateX(0)",
-                width: isMobile ? "240px" : "460px",
-                height: isMobile ? "240px" : "480px",
-                background: "linear-gradient(to bottom, #3ecf7a, #6ddba0, #a8edcc, #d4f5e8, #e7f1ed, #fff)",
-                borderRadius: "50%",
-                zIndex: 1,
-              }} />
-              <div style={{ position: "relative", zIndex: 2 }}>
-                <PhoneMockup isMobile={isMobile} />
+                position: "relative",
+                marginLeft: "auto",
+                width: "360px",
+                height: "560px",
+              }}>
+                <div style={{
+                  position: "absolute",
+                  top: 20,
+                  right: "0",
+                  width: "460px",
+                  height: "480px",
+                  background: "linear-gradient(to bottom, #3ecf7a, #6ddba0, #a8edcc, #d4f5e8, #e7f1ed, #fff)",
+                  borderRadius: "50%",
+                  zIndex: 1,
+                }} />
+                <div style={{ position: "relative", zIndex: 2 }}>
+                  <PhoneMockup isMobile={false} />
+                </div>
               </div>
             </div>
-          </div>
 
-        </div>
+          </div>
+        )}
       </div>
     </>
   );
