@@ -93,7 +93,7 @@ export default function PandaSectionA() {
                 color: "#1a1a1a",
                 lineHeight: 1.03,
               }}>
-                Plant trees&nbsp;<span style={{ fontSize: "1em" }}>🌱</span>
+                Plant trees<span style={{ fontSize: "1em" }}>🌱</span>
               </h1>
               <h1 style={{
                 margin: "0 0 1rem",
@@ -105,10 +105,10 @@ export default function PandaSectionA() {
               }}>
                 Make memories.
               </h1>
-              <p style={{
+             <p style={{
                 marginTop: "16px",
                 marginBottom: 0,
-                fontSize: "clamp(20px, 5.5vw, 28px)",
+                fontSize: "clamp(22px, 6vw, 30px)",
                 color: "#8e99a2",
                 lineHeight: 1.45,
                 fontFamily: "'Georgia', serif",
@@ -117,7 +117,9 @@ export default function PandaSectionA() {
                 Fun&nbsp;meets climate action<br />
                 but it's more than that!
               </p>
-              <WavyLine />
+              <div style={{ width: "80%", overflow: "hidden" }}>
+                <WavyLine />
+              </div>
             </div>
 
             {/* "A TREE-PLANTING MOVEMENT" badge */}
@@ -157,8 +159,8 @@ export default function PandaSectionA() {
                 top: 20,
                 left: "50%",
                 transform: "translateX(-50%)",
-                width: "240px",
-                height: "240px",
+                width: "320px",
+                height: "320px",
                 background: "linear-gradient(to bottom, #3ecf7a, #6ddba0, #a8edcc, #d4f5e8, #e7f1ed, #fff)",
                 borderRadius: "50%",
                 zIndex: 1,
