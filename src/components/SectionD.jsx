@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import boardscore from "../assets/pandawimages/BoardScore.webp" 
-import networkIssues from "../assets/pandawimages/NetworkIssue.webp" 
-import events from "../assets/pandawimages/SucessEventCreated.webp" 
+import networkIssues from "../assets/pandawimages/Panda_Internet_Issue.webp" 
+import events from "../assets/pandawimages/Event_Sucessful_No_Glitter.webp" 
 import carbon_credits from "../assets/pandawimages/impact_token.webp" 
 
 const features = [
   {
-    title: "Friendly Competition",
+    title: "Friendly Games",
     description: "Climb the leaderboard, challenge friends, and see who can plant the most trees while making a real impact together.",
     image: boardscore, 
   },

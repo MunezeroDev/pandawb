@@ -11,12 +11,12 @@ const features = [
     image: treeUpload, 
   },
   {
-    title: "Memorable Tree Plan Experience",
+    title: "Memorable Experience",
     description: "Panda instantly turns your tree planting moment into a beautiful shareable collage for social media.",
     image: collages,
   },
   {
-    title: "Geo-Mapped Location",
+    title: "Geo-Tagged Location",
     description: "Track exactly where your tree is planted with a geo-mapped pin and revisit your impact on the map anytime.",
     image: location,
   },
