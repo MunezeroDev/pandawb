@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
-import aboutUs from '../assets/AboutUs.webp'; 
+import aboutUs from "../assets/AboutUs.webp";
 
-const blackSans =  `@import url('https://fonts.cdnfonts.com/css/black-sans');`;
+const blackSans = `@import url('https://fonts.cdnfonts.com/css/black-sans');`;
 
 export default function PandaSectionB() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -16,9 +16,10 @@ export default function PandaSectionB() {
   return (
     <>
       <div
+        id="about"
         style={{
           fontFamily: "'Georgia', 'Times New Roman', serif",
-          minHeight: "100vh",
+          minHeight: "80vh",
           padding: isMobile ? "40px 24px 48px" : "28px 52px 0",
           marginLeft: isMobile ? "0" : "80px",
           boxSizing: "border-box",
@@ -29,7 +30,9 @@ export default function PandaSectionB() {
         <header style={{ marginBottom: isMobile ? "28px" : "40px" }}>
           <h1
             style={{
-              fontSize: isMobile ? "clamp(48px,12vw,80px)" : "clamp(64px,8vw,110px)",
+              fontSize: isMobile
+                ? "clamp(48px,12vw,80px)"
+                : "clamp(64px,8vw,110px)",
               fontFamily: "'Georgia', serif",
               fontWeight: "normal",
               lineHeight: 1.03,
@@ -38,8 +41,7 @@ export default function PandaSectionB() {
               color: "#1a1a1a",
             }}
           >
-            About{" "}
-            <span style={{ color: "#00bf63" }}>Panda</span>
+            About <span style={{ color: "#00bf63" }}>Panda</span>
           </h1>
         </header>
 
@@ -95,13 +97,21 @@ export default function PandaSectionB() {
               Panda was founded in 2025 to tackle deforestation by redefining
               what tree-planting means in the modern era. Panda brings together
               a vibrant ecosystem — the{" "}
-              <a href="#" style={linkStyle}>Panda App</a>,{" "}
-              Panda{" "}
-              <a href="#" style={linkStyle}>Club</a>,{" "}
-              Panda{" "}
-              <a href="#" style={linkStyle}>Systems</a>,{" "}
-              and our passionate community of{" "}
-              <a href="#" style={linkStyle}>Panders</a>{" "}
+              <a href="#" style={linkStyle}>
+                Panda App
+              </a>
+              , Panda{" "}
+              <a href="#" style={linkStyle}>
+                Club
+              </a>
+              , Panda{" "}
+              <a href="#" style={linkStyle}>
+                Systems
+              </a>
+              , and our passionate community of{" "}
+              <a href="#" style={linkStyle}>
+                Panders
+              </a>{" "}
               — to make restoring the planet fun, social, and deeply impactful.
             </p>
 
@@ -122,11 +132,11 @@ export default function PandaSectionB() {
                   cursor: "pointer",
                   transition: "background 0.2s ease, transform 0.15s ease",
                 }}
-                onMouseEnter={e => {
+                onMouseEnter={(e) => {
                   e.currentTarget.style.background = "#46cd6e";
                   e.currentTarget.style.transform = "translateY(-1px)";
                 }}
-                onMouseLeave={e => {
+                onMouseLeave={(e) => {
                   e.currentTarget.style.background = "#00bf63";
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
