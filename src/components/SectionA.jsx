@@ -4,6 +4,7 @@ import logo from "../assets/panda-logo.webp";
 import phoneMockup from "../assets/panda_app_mockup.webp";
 import underline from "../assets/svg_underline.webp";
 import seedlingIcon from "../assets/seedling_img.jpg";
+import DownloadButton from "./DownloadButton";
 
 const norwesterStyle = `
   @import url('https://fonts.cdnfonts.com/css/norwester');
@@ -396,6 +397,33 @@ export default function PandaSectionA() {
                 maxWidth: "100%",
               }}
             >
+              {/*               <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  alignSelf: "flex-end",
+                  marginBottom: "24px",
+                  background: "#e6faf1",
+                  border: "1.5px solid #00bf63",
+                  borderRadius: "999px",
+                  padding: "8px 20px",
+                }}
+              >
+                <span style={{ fontSize: "1.1rem" }}>🌍</span>
+                <span
+                  style={{
+                    fontFamily: "'Black Han Sans', sans-serif",
+                    fontSize: "0.85rem",
+                    fontWeight: "700",
+                    color: "#00a854",
+                    letterSpacing: "2.5px",
+                  }}
+                >
+                  A TREE-PLANTING MOVEMENT
+                </span>
+              </div> */}
+
               <h1
                 style={{
                   margin: 0,
@@ -456,32 +484,11 @@ export default function PandaSectionA() {
                 alignItems: "flex-start",
                 position: "absolute",
                 right: 100,
-                top: 120,
+                // top: 120,
+                top: 80,
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  marginBottom: "24px",
-                  alignSelf: "flex-end",
-                }}
-              >
-                <style>{blackSans}</style>
-                <span
-                  style={{
-                    fontSize: "1.5rem",
-                    fontWeight: "700",
-                    color: "#00bf63",
-                    letterSpacing: "1.5px",
-                    fontFamily: "'Black Han Sans', sans-serif",
-                  }}
-                >
-                  A TREE-PLANTING MOVEMENT
-                </span>
-                <span style={{ fontSize: "3rem" }}>🌍</span>
-              </div>
+              <DownloadButton />
 
               <div
                 style={{
