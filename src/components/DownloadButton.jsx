@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 /* ─── Keyframes & base styles ─────────────────────────────────────────── */
 const css = `
@@ -18,6 +18,14 @@ const css = `
     from { opacity: 0; }
     to   { opacity: 1; }
   }
+  @keyframes toast-in {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes toast-out {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(-16px); }
+  }
   .dl-ripple {
     position: absolute; border-radius: 50%;
     background: rgba(255,255,255,0.22);
@@ -29,11 +37,14 @@ const css = `
   .dl-ripple.active { animation: ripple-out 0.5s ease-out forwards; }
   .dl-backdrop      { animation: backdrop-fade-in 0.2s ease forwards; }
   .dl-popup         { animation: popup-slide-in 0.32s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+  .dl-toast     { animation: toast-in 0.32s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+  .dl-toast-out { animation: toast-out 0.28s ease-in forwards; }
 `;
 
 /* ─── Notice configuration ─────────────────────────────────────────────── */
 const NOTICES = {
   ios: {
+    // TODO: replace with Svg for apple
     emoji: "🍎",
     title: "Panda is currently not available on iOS.",
     body: "We're currently developing the iOS version. Stay tuned for updates.",
@@ -64,20 +75,46 @@ const NOTICES = {
 };
 
 /* ─── Overlay / Popup ──────────────────────────────────────────────────── */
-function NoticeOverlay({ notice, onClose }) {
+function NoticeOverlay({
+  notice,
+  onClose,
+  scopeRect,
+  successStage,
+  bannerLeaving,
+}) {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    if (!notice) {
+      setReady(false);
+      return;
+    }
+    const t = setTimeout(() => setReady(true), 350);
+    return () => clearTimeout(t);
+  }, [notice]);
+
   if (!notice) return null;
   const cfg = NOTICES[notice];
 
   return (
     <div
       className="dl-backdrop"
-      onClick={cfg.autoDismiss ? onClose : onClose} // backdrop click always closes
+      onClick={ready && successStage === "guide" ? onClose : undefined}
       style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(10, 30, 18, 0.55)",
-        backdropFilter: "blur(4px)",
-        WebkitBackdropFilter: "blur(4px)",
+        ...(scopeRect
+          ? {
+              position: "fixed",
+              top: scopeRect.top,
+              left: scopeRect.left,
+              width: scopeRect.width,
+              height: scopeRect.height,
+            }
+          : { position: "fixed", inset: 0 }),
+        // background: "rgba(10, 30, 18, 0.82)",
+        background:
+          successStage === "banner" ? "transparent" : "rgba(10, 30, 18, 0.82)",
+        backdropFilter: "blur(6px)",
+        WebkitBackdropFilter: "blur(6px)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -85,223 +122,282 @@ function NoticeOverlay({ notice, onClose }) {
         padding: "20px",
       }}
     >
-      <div
-        className="dl-popup"
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          background: "#ffffff",
-          borderRadius: "22px",
-          padding: notice === "success" ? "28px 24px 32px" : "32px 28px",
-          maxWidth: notice === "success" ? "360px" : "320px",
-          width: "100%",
-          maxHeight: "90vh",
-          overflowY: "auto",
-          boxShadow:
-            "0 24px 64px rgba(0,0,0,0.22), 0 2px 8px rgba(0,191,99,0.1)",
-          position: "relative",
-          textAlign: "center",
-          fontFamily: "'Georgia', serif",
-        }}
-      >
-        {/* ── Green accent strip ── */}
+      {notice === "success" && successStage === "banner" ? (
+        /* ── Phase 1: Banner ── */
         <div
           style={{
-            position: "absolute",
-            top: 0,
+            position: "fixed",
+            top: "16px",
             left: 0,
             right: 0,
-            height: "5px",
-            background: "linear-gradient(90deg, #00bf63, #00d46e)",
-            borderRadius: "22px 22px 0 0",
-          }}
-        />
-
-        {/* ── Close button (all notices) ── */}
-        <button
-          onClick={onClose}
-          aria-label="Close"
-          style={{
-            position: "absolute",
-            top: "14px",
-            right: "16px",
-            background: "#f0faf4",
-            border: "none",
-            borderRadius: "50%",
-            width: "30px",
-            height: "30px",
-            cursor: "pointer",
-            color: "#4a7c5f",
-            fontSize: "16px",
             display: "flex",
-            alignItems: "center",
             justifyContent: "center",
-            lineHeight: 1,
+            zIndex: 9999,
+            pointerEvents: "none",
           }}
         >
-          ✕
-        </button>
-
-        {/* ── Emoji icon ── */}
-        <div
-          style={{
-            fontSize: "2.6rem",
-            marginTop: "10px",
-            marginBottom: "14px",
-          }}
-        >
-          {cfg.emoji}
-        </div>
-
-        {/* ── Title ── */}
-        <p
-          style={{
-            margin: "0 0 10px",
-            fontSize: "1rem",
-            fontWeight: "700",
-            color: "#0f2d1c",
-            letterSpacing: "0.2px",
-            lineHeight: 1.4,
-          }}
-        >
-          {cfg.title}
-        </p>
-
-        {/* ── Body text ── */}
-        {cfg.body && (
-          <p
+          <div
+            className={bannerLeaving ? "dl-toast-out" : "dl-toast"}
             style={{
-              margin: 0,
-              fontSize: "0.875rem",
-              color: "#3d6b4f",
-              lineHeight: 1.6,
+              pointerEvents: "auto",
+              background: "#ffffff",
+              borderRadius: "14px",
+              padding: "12px 20px",
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+              boxShadow:
+                "0 4px 24px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.08)",
+              border: "1px solid #c8f0dc",
+              borderLeft: "4px solid #00bf63",
+              minWidth: "260px",
+              maxWidth: "340px",
             }}
           >
-            {cfg.body}
-          </p>
-        )}
-
-        {/* ── Installation guide (success only) ── */}
-        {notice === "success" && (
-          <div style={{ textAlign: "left", marginTop: "22px" }}>
-            {/*
-              ┌─────────────────────────────────────────────────────────┐
-              │  Drop your SVG guide image here.                        │
-              │  Replace the placeholder <div> below with your <img />  │
-              │  or inline <svg> — aspect ratio adjusts automatically.  │
-              └─────────────────────────────────────────────────────────┘
-              
-            */}
-            <div
-              style={{
-                background: "#f0faf4",
-                borderRadius: "12px",
-                border: "2px dashed #a8d5b5",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: "18px",
-                color: "#4a7c5f",
-                fontSize: "0.78rem",
-                letterSpacing: "0.3px",
-                /* Responsive height — replace with auto once you have the image */
-                aspectRatio: "16 / 9",
-              }}
-            >
-              [ Installation guide image ]
+            <span style={{ fontSize: "1.4rem" }}>✅</span>
+            <div>
+              <p
+                style={{
+                  margin: 0,
+                  fontWeight: "700",
+                  color: "#0f2d1c",
+                  fontSize: "0.95rem",
+                  fontFamily: "'Georgia', serif",
+                }}
+              >
+                Download Started!
+              </p>
+              <p
+                style={{
+                  margin: 0,
+                  color: "#3d6b4f",
+                  fontSize: "0.78rem",
+                  marginTop: "2px",
+                  fontFamily: "'Georgia', serif",
+                }}
+              >
+                Your APK is downloading…
+              </p>
             </div>
+          </div>
+        </div>
+      ) : (
+        /* ── Phase 2: Guide + all other notices ── */
+        <div
+          className="dl-popup"
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            background: "#ffffff",
+            borderRadius: "22px",
+            padding: notice === "success" ? "28px 24px 32px" : "32px 28px",
+            maxWidth: notice === "success" ? "360px" : "320px",
+            width: "100%",
+            maxHeight: scopeRect ? "90%" : "90vh",
+            overflowY: "auto",
+            boxShadow:
+              "0 24px 64px rgba(0,0,0,0.22), 0 2px 8px rgba(0,191,99,0.1)",
+            position: "relative",
+            textAlign: "center",
+            fontFamily: "'Georgia', serif",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: "5px",
+              background: "linear-gradient(90deg, #00bf63, #00d46e)",
+              borderRadius: "22px 22px 0 0",
+            }}
+          />
 
-            {/* Steps */}
-            <ol
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            style={{
+              position: "absolute",
+              top: "14px",
+              right: "16px",
+              background: "#f0faf4",
+              border: "none",
+              borderRadius: "50%",
+              width: "30px",
+              height: "30px",
+              cursor: "pointer",
+              color: "#4a7c5f",
+              fontSize: "16px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              lineHeight: 1,
+            }}
+          >
+            ✕
+          </button>
+
+          <div
+            style={{
+              fontSize: "2.6rem",
+              marginTop: "10px",
+              marginBottom: "14px",
+            }}
+          >
+            {notice === "success" ? "📲" : cfg.emoji}
+          </div>
+
+          <p
+            style={{
+              margin: "0 0 10px",
+              fontSize: "1rem",
+              fontWeight: "700",
+              color: "#0f2d1c",
+              letterSpacing: "0.2px",
+              lineHeight: 1.4,
+            }}
+          >
+            {notice === "success" ? "How to Install" : cfg.title}
+          </p>
+
+          {cfg.body && notice !== "success" && (
+            <p
               style={{
                 margin: 0,
-                paddingLeft: "18px",
-                fontSize: "0.85rem",
-                color: "#1a3c2a",
-                lineHeight: "1.9",
+                fontSize: "0.875rem",
+                color: "#3d6b4f",
+                lineHeight: 1.6,
               }}
             >
-              <li>
-                Open <strong>Downloads</strong>
-              </li>
-              <li>
-                Tap the <strong>.apk</strong> file
-              </li>
-              <li>
-                Tap <strong>Install</strong>
-              </li>
-              <li>
-                If blocked or unable to install:
-                <ol
-                  style={{
-                    paddingLeft: "16px",
-                    marginTop: "4px",
-                    listStyleType: "lower-alpha",
-                  }}
-                >
-                  <li>
-                    Tap <strong>Settings</strong>
-                  </li>
-                  <li>
-                    Turn on <em>"Allow from this source"</em> or{" "}
-                    <em>"Install unknown apps"</em>
-                  </li>
-                </ol>
-              </li>
-              <li>
-                Go back to <strong>Downloads</strong>
-              </li>
-              <li>
-                Tap <strong>Install</strong> again
-              </li>
-            </ol>
+              {cfg.body}
+            </p>
+          )}
 
-            {/* Dismiss CTA */}
-            <button
-              onClick={onClose}
-              style={{
-                display: "block",
-                width: "100%",
-                marginTop: "22px",
-                padding: "12px",
-                background: "#00bf63",
-                color: "#fff",
-                border: "none",
-                borderRadius: "999px",
-                fontFamily: "'Georgia', serif",
-                fontWeight: "700",
-                fontSize: "0.9rem",
-                cursor: "pointer",
-                letterSpacing: "0.3px",
-              }}
-            >
-              Got it!
-            </button>
-          </div>
-        )}
-      </div>
+          {notice === "success" && (
+            <div style={{ textAlign: "left", marginTop: "22px" }}>
+              <ol
+                style={{
+                  margin: 0,
+                  paddingLeft: "18px",
+                  fontSize: "0.85rem",
+                  color: "#1a3c2a",
+                  lineHeight: "1.9",
+                }}
+              >
+                <li>
+                  Open <strong>Downloads</strong>
+                </li>
+                <li>
+                  Tap the <strong>.apk</strong> file
+                </li>
+                <li>
+                  Tap <strong>Install</strong>
+                </li>
+                <li>
+                  If blocked or unable to install:
+                  <ol
+                    style={{
+                      paddingLeft: "16px",
+                      marginTop: "4px",
+                      listStyleType: "lower-alpha",
+                    }}
+                  >
+                    <li>
+                      Tap <strong>Settings</strong>
+                    </li>
+                    <li>
+                      Turn on <em>"Allow from this source"</em> or{" "}
+                      <em>"Install unknown apps"</em>
+                    </li>
+                  </ol>
+                </li>
+                <li>
+                  Go back to <strong>Downloads</strong>
+                </li>
+                <li>
+                  Tap <strong>Install</strong> again
+                </li>
+              </ol>
+              <button
+                onClick={onClose}
+                style={{
+                  display: "block",
+                  width: "100%",
+                  marginTop: "22px",
+                  padding: "12px",
+                  background: "#00bf63",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "999px",
+                  fontFamily: "'Georgia', serif",
+                  fontWeight: "700",
+                  fontSize: "0.9rem",
+                  cursor: "pointer",
+                  letterSpacing: "0.3px",
+                }}
+              >
+                Got it!
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
 
 /* ─── Main component ───────────────────────────────────────────────────── */
-export default function DownloadButton() {
+export default function DownloadButton({ scopeRef }) {
   const rippleRef = useRef(null);
   const timerRef = useRef(null);
+  const guideTimerRef = useRef(null);
   const [notice, setNotice] = useState(null);
+  const [scopeRect, setScopeRect] = useState(null);
+  const [successStage, setSuccessStage] = useState("banner");
+  const [bannerLeaving, setBannerLeaving] = useState(false);
 
   /* Open a notice; auto-dismiss notices clear themselves */
   const openNotice = (type) => {
+    if (scopeRef?.current) {
+      const r = scopeRef.current.getBoundingClientRect();
+      setScopeRect({
+        top: r.top,
+        left: r.left,
+        width: r.width,
+        height: r.height,
+      });
+    } else {
+      setScopeRect(null);
+    }
+
     clearTimeout(timerRef.current);
+    clearTimeout(guideTimerRef.current);
+
+    if (type === "success") {
+      setSuccessStage("banner");
+      setBannerLeaving(false);
+      setNotice("success");
+      timerRef.current = setTimeout(() => setBannerLeaving(true), 1700);
+      guideTimerRef.current = setTimeout(() => {
+        setBannerLeaving(false);
+        setSuccessStage("guide");
+      }, 1100);
+      // 2100);
+      return;
+    }
+
     setNotice(type);
     const cfg = NOTICES[type];
     if (cfg.autoDismiss) {
       timerRef.current = setTimeout(() => setNotice(null), cfg.dismissAfter);
     }
   };
-
   const closeNotice = () => {
     clearTimeout(timerRef.current);
+    clearTimeout(guideTimerRef.current);
     setNotice(null);
+    setSuccessStage("banner");
+    setBannerLeaving(false);
   };
 
   const triggerRipple = () => {
@@ -353,13 +449,20 @@ export default function DownloadButton() {
 
     /* All clear — start download */
     openNotice("success");
-    window.location.href = "YOUR_EXPRESS_DOWNLOAD_ENDPOINT";
+    // FIX: WHEN URL IS READY OPEN
+    // window.location.href = "YOUR_EXPRESS_DOWNLOAD_ENDPOINT";
   };
 
   return (
     <>
       <style>{css}</style>
-      <NoticeOverlay notice={notice} onClose={closeNotice} />
+      <NoticeOverlay
+        notice={notice}
+        onClose={closeNotice}
+        scopeRect={scopeRect}
+        successStage={successStage}
+        bannerLeaving={bannerLeaving}
+      />
 
       <div
         style={{
@@ -394,6 +497,9 @@ export default function DownloadButton() {
             transition:
               "transform 0.18s cubic-bezier(0.34,1.56,0.64,1), background 0.18s ease, box-shadow 0.18s ease",
             marginBottom: "2rem",
+            userSelect: "none",
+            WebkitUserSelect: "none",
+            WebkitTapHighlightColor: "transparent",
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = "translateY(-2px)";

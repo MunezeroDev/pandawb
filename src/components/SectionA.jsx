@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import logo from "../assets/panda-logo.webp";
 import phoneMockup from "../assets/panda_app_mockup.webp";
@@ -69,6 +69,8 @@ export default function PandaSectionA() {
   }, []);
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const homeSectionRef = useRef(null);
+  const rightColumnRef = useRef(null);
 
   const navItems = [
     { label: "Home", id: "home" },
@@ -84,6 +86,7 @@ export default function PandaSectionA() {
       <style>{norwesterStyle}</style>
       <div
         id="home"
+        ref={homeSectionRef}
         style={{
           fontFamily: "'Georgia', 'Times New Roman', serif",
           background: "#ffffff",
@@ -192,31 +195,6 @@ export default function PandaSectionA() {
             >
               {navItems.map(({ label, id, icon }, i) => (
                 <a
-                  /* key={id}
-                  href={`#${id}`}
-                  onClick={() => setMenuOpen(false)}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    padding: "11px 20px",
-                    fontFamily: "'Georgia', serif",
-                    fontSize: "14px",
-                    color: "#1a1a1a",
-                    textDecoration: "none",
-                    fontWeight: "500",
-                    transition: "background 0.18s ease",
-                    borderBottom: "1px solid #f0f9f4",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "#f0faf5";
-                    e.currentTarget.style.color = "#00bf63";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "transparent";
-                    e.currentTarget.style.color = "#1a1a1a";
-                  }} */
-
                   /* CJ STYLE ON NAVITEMS */
                   key={id}
                   href={`#${id}`}
@@ -354,14 +332,6 @@ export default function PandaSectionA() {
             <div style={{ marginTop: "0rem" }}>
               <h1
                 style={{
-                  /*                   
-                  margin: 0,
-                  fontFamily: "'Georgia', serif",
-                  fontSize: "clamp(46px, 12vw, 62px)",
-                  fontWeight: "normal",
-                  color: "#1a1a1a",
-                  lineHeight: 1.03, */
-
                   margin: 0,
                   fontFamily: "'Georgia', serif",
                   // fontSize: "clamp(46px, 12vw, 62px)",
@@ -411,41 +381,12 @@ export default function PandaSectionA() {
               </p>
               <div style={{ width: "80%", overflow: "hidden" }}>
                 {/* <WavyLine /> */}
+                {/* Download Button */}
                 <div style={{ marginTop: "24px" }}>
-                  <DownloadButton />
+                  <DownloadButton scopeRef={homeSectionRef} />
                 </div>
               </div>
             </div>
-
-            {/* "A TREE-PLANTING MOVEMENT" badge 
-              Might Change mind!
-            */}
-            {/*             <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "10px",
-                marginTop: "32px",
-                marginBottom: "16px",
-              }}
-            >
-              <style>{blackSans}</style>
-              <span
-                style={{
-                  fontSize: "1.1rem",
-                  fontWeight: "700",
-                  color: "#00bf63",
-                  letterSpacing: "1.5px",
-                  fontFamily: "'Black Han Sans', sans-serif",
-                  textAlign: "center",
-                }}
-              >
-                A TREE-PLANTING MOVEMENT
-              </span>
-              <span style={{ fontSize: "2rem" }}>🌍</span>
-            </div>
-           */}
 
             {/* Phone + green blob — centred */}
             <div
@@ -503,33 +444,6 @@ export default function PandaSectionA() {
                 maxWidth: "100%",
               }}
             >
-              {/*               <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  alignSelf: "flex-end",
-                  marginBottom: "24px",
-                  background: "#e6faf1",
-                  border: "1.5px solid #00bf63",
-                  borderRadius: "999px",
-                  padding: "8px 20px",
-                }}
-              >
-                <span style={{ fontSize: "1.1rem" }}>🌍</span>
-                <span
-                  style={{
-                    fontFamily: "'Black Han Sans', sans-serif",
-                    fontSize: "0.85rem",
-                    fontWeight: "700",
-                    color: "#00a854",
-                    letterSpacing: "2.5px",
-                  }}
-                >
-                  A TREE-PLANTING MOVEMENT
-                </span>
-              </div> */}
-
               <h1
                 style={{
                   margin: 0,
@@ -584,6 +498,7 @@ export default function PandaSectionA() {
 
             {/* RIGHT: Tag + Phone on green blob (absolute, desktop only) */}
             <div
+              ref={rightColumnRef}
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -596,7 +511,9 @@ export default function PandaSectionA() {
                 top: 120,
               }}
             >
-              <DownloadButton />
+              {/* Download Button */}
+
+              <DownloadButton scopeRef={rightColumnRef} />
               <div
                 style={{
                   position: "relative",
