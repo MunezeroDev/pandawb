@@ -37,6 +37,7 @@ const FeatureCard = ({ feature, isMobile }) => {
   if (isMobile) {
     return (
       <div
+        /* Mobile Phone Feature card Container  */
         style={{
           borderRadius: "20px",
           overflow: "hidden",
@@ -47,14 +48,24 @@ const FeatureCard = ({ feature, isMobile }) => {
         }}
       >
         {/* Image */}
-        <div style={{ height: "400px", overflow: "hidden", flexShrink: 0 }}>
+
+        {/* <div style={{ height: "400px", overflow: "hidden", flexShrink: 0 }}> */}
+        <div
+          style={{
+            aspectRatio: "4/5",
+            overflow: "hidden",
+            flexShrink: 0,
+            background: "#0F172A",
+          }}
+        >
           <img
             src={feature.image}
             alt={feature.title}
             style={{
               width: "100%",
               height: "100%",
-              objectFit: "cover",
+              // objectFit: "cover",
+              objectFit: "contain",
               display: "block",
             }}
           />
@@ -64,7 +75,8 @@ const FeatureCard = ({ feature, isMobile }) => {
         <div
           style={{
             background: "#00bf63",
-            padding: "18px 20px 22px",
+            // padding: "18px 20px 22px",
+            padding: "12px 16px 16px",
           }}
         >
           <h3
@@ -80,7 +92,9 @@ const FeatureCard = ({ feature, isMobile }) => {
           >
             {feature.title}
           </h3>
-          <p
+
+          {/*          
+           <p
             style={{
               margin: 0,
               fontSize: "13px",
@@ -91,7 +105,7 @@ const FeatureCard = ({ feature, isMobile }) => {
             }}
           >
             {feature.description}
-          </p>
+          </p> */}
         </div>
       </div>
     );
@@ -100,6 +114,7 @@ const FeatureCard = ({ feature, isMobile }) => {
   // ── Desktop card ──
   return (
     <div
+      /* Feature card Container */
       id="features"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -193,13 +208,15 @@ export default function PandaSectionC() {
   return (
     <div
       id="features"
+      /* FEATURE: SECTION 1 :  */
       style={{
         fontFamily: "'Georgia', 'Times New Roman', serif",
         background: "#ffffff",
         minHeight: "80vh",
         // padding: isMobile ? "40px 20px 56px" : "52px 52px 60px",
-        padding: isMobile ? "40px 20px 56px" : "32px 52px 20px",
+        padding: isMobile ? "25px 20px 56px" : "32px 52px 20px",
         marginLeft: isMobile ? "0" : "80px",
+        // background: "yellow",
         boxSizing: "border-box",
       }}
     >

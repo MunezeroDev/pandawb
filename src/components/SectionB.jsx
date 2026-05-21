@@ -20,7 +20,8 @@ export default function PandaSectionB() {
         style={{
           fontFamily: "'Georgia', 'Times New Roman', serif",
           minHeight: "80vh",
-          padding: isMobile ? "40px 24px 48px" : "28px 52px 0",
+          // background: "yellow",
+          padding: isMobile ? "25px 24px 48px" : "28px 52px 0",
           marginLeft: isMobile ? "0" : "80px",
           boxSizing: "border-box",
           overflow: "hidden",

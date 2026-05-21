@@ -18,8 +18,10 @@ export default function PandaSectionE() {
       style={{
         fontFamily: "'Georgia', 'Times New Roman', serif",
         background: "#fff",
-        minHeight: "100vh",
-        padding: isMobile ? "40px 24px 56px" : "22px 52px 60px",
+        minHeight: "80vh",
+        // minHeight: "100vh",
+        // padding: isMobile ? "40px 24px 56px" : "22px 52px 60px",
+        padding: isMobile ? "25px 24px 56px" : "22px 52px 60px",
         marginLeft: isMobile ? "0" : "80px",
         boxSizing: "border-box",
         overflow: "hidden",
@@ -27,6 +29,7 @@ export default function PandaSectionE() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        // background: "yellow",
       }}
     >
       {isMobile ? (

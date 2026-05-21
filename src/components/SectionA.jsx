@@ -19,6 +19,7 @@ const PhoneMockup = ({ isMobile }) => (
     src={phoneMockup}
     alt="Panda App Mockup"
     style={{
+      // TODO: the size of mockup(if neccessary)
       width: isMobile ? "180px" : "260px",
       height: "auto",
       objectFit: "contain",
@@ -46,21 +47,36 @@ const SproutIcon = () => (
 export default function PandaSectionA() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+  // scrolling state: when user scrolls past SectionA(Home)
+  const [scrolled, setScrolled] = useState(false);
+
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  // user effect : scrolling
+  useEffect(() => {
+    const onScroll = () => {
+      // 0.6 - reduced this for speed
+      const pastSectionA = window.scrollY > window.innerHeight * 0.2;
+      setScrolled(pastSectionA);
+      if (pastSectionA) setMenuOpen(false);
+    };
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navItems = [
-    { label: "Home", id: "home", icon: "🌍" },
-    { label: "About", id: "about", icon: "🐼" },
-    { label: "Features", id: "features", icon: "✨" },
-    { label: "Using Panda", id: "usingPanda", icon: "📱" },
-    { label: "In Action", id: "inAction", icon: "🌿" },
-    { label: "Contact", id: "contact", icon: "📬" },
+    { label: "Home", id: "home" },
+    { label: "About", id: "about" },
+    { label: "Features", id: "features" },
+    { label: "Using Panda", id: "usingPanda" },
+    { label: "In Action", id: "inAction" },
+    { label: "Contact", id: "contact" },
   ];
 
   return (
@@ -82,108 +98,155 @@ export default function PandaSectionA() {
         {/* ── NAVBAR ── */}
         {isMobile ? (
           <div
+            /* HAMBURGER */
             style={{
-              position: "absolute",
+              // position: "absolute",
+              position: "fixed",
               top: "20px",
               right: "24px",
-              zIndex: 50,
+              // zIndex: 50,
+              zIndex: 150,
+              opacity: scrolled ? 0 : 1,
+              pointerEvents: scrolled ? "none" : "auto",
+              transition: "opacity 0.3s ease",
             }}
           >
-            {/* button  */}
+            {/* Mobile DropDown Button */}
             <button
               onClick={() => setMenuOpen((o) => !o)}
               style={{
-                background: menuOpen ? "#009e52" : "#00bf63",
+                background: "transparent",
                 border: "none",
-                borderRadius: "50px",
-                padding: "9px 20px",
                 cursor: "pointer",
+                padding: "8px",
                 display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
                 alignItems: "center",
-                gap: "8px",
-                boxShadow: "0 4px 18px rgba(0,191,99,0.4)",
-                transition: "all 0.2s ease",
-                transform: menuOpen ? "scale(0.97)" : "scale(1)",
+                gap: "5px",
+                width: "40px",
+                height: "40px",
               }}
             >
               <span
                 style={{
-                  fontSize: "15px",
-                  transition: "transform 0.3s",
-                  transform: menuOpen ? "rotate(90deg)" : "rotate(0deg)",
+                  display: "block",
+                  width: "24px",
+                  height: "2.5px",
+                  background: "#00bf63",
+                  borderRadius: "2px",
+                  transition: "all 0.3s ease",
+                  transform: menuOpen
+                    ? "rotate(45deg) translate(5px, 5px)"
+                    : "none",
                 }}
-              >
-                🌿
-              </span>
+              />
               <span
                 style={{
-                  fontFamily: "'Georgia', serif",
-                  fontSize: "11px",
-                  fontWeight: "700",
-                  color: "#fff",
-                  letterSpacing: "2px",
+                  display: "block",
+                  width: "24px",
+                  height: "2.5px",
+                  background: "#00bf63",
+                  borderRadius: "2px",
+                  transition: "all 0.3s ease",
+                  opacity: menuOpen ? 0 : 1,
                 }}
-              >
-                {menuOpen ? "CLOSE" : "MENU"}
-              </span>
+              />
+              <span
+                style={{
+                  display: "block",
+                  width: "24px",
+                  height: "2.5px",
+                  background: "#00bf63",
+                  borderRadius: "2px",
+                  transition: "all 0.3s ease",
+                  transform: menuOpen
+                    ? "rotate(-45deg) translate(5px, -5px)"
+                    : "none",
+                }}
+              />
             </button>
 
-            {/* Dropdown */}
+            {/* Dropdown Div For Mobile Navbar*/}
+
+            {/* Dropdown Div For Mobile Navbar: CJ STYLE */}
             <div
               style={{
-                position: "absolute",
-                top: "52px",
-                right: 0,
-                background: "#fff",
-                borderRadius: "18px",
-                boxShadow: "0 12px 40px rgba(0,0,0,0.13)",
-                border: "1px solid #e0f5ec",
-                minWidth: "200px",
+                position: "fixed",
+                top: "110px",
+                left: 0,
+                width: "100vw",
+                // height: menuOpen ? "100vh" : "0",
+                height: menuOpen ? "fit-content" : "0",
+                background: "#7ad3aa",
                 overflow: "hidden",
-                maxHeight: menuOpen ? "500px" : "0",
                 opacity: menuOpen ? 1 : 0,
-                transition: "max-height 0.35s ease, opacity 0.25s ease",
+                transition: "height 0.35s ease, opacity 0.28s ease",
+                zIndex: 100,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "flex-start",
+                padding: menuOpen ? "0 36px" : "0",
               }}
             >
               {navItems.map(({ label, id, icon }, i) => (
                 <a
+                  /* key={id}
+                  href={`#${id}`}
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    padding: "11px 20px",
+                    fontFamily: "'Georgia', serif",
+                    fontSize: "14px",
+                    color: "#1a1a1a",
+                    textDecoration: "none",
+                    fontWeight: "500",
+                    transition: "background 0.18s ease",
+                    borderBottom: "1px solid #f0f9f4",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "#f0faf5";
+                    e.currentTarget.style.color = "#00bf63";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.color = "#1a1a1a";
+                  }} */
+
+                  /* CJ STYLE ON NAVITEMS */
                   key={id}
                   href={`#${id}`}
                   onClick={() => setMenuOpen(false)}
                   style={{
+                    display: "flex",
+                    alignItems: "center",
+                    // padding: "18px 0",
+                    padding: "13px 0",
                     fontFamily: "'Georgia', serif",
-                    fontSize: "13.5px",
-                    color: "#3d6b52", // deep forest green — elegant, not loud
+                    // fontSize: "22px",
+                    fontSize: "16px",
+                    color: "#ffffff",
                     textDecoration: "none",
-                    fontWeight: "600",
-                    padding: "7px 18px",
-                    borderRadius: "50px",
-                    letterSpacing: "0.6px",
-                    border: "1.5px solid transparent",
-                    background: "transparent",
-                    position: "relative",
-                    transition: "all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                    fontWeight: "700",
+                    textTransform: "uppercase",
+                    letterSpacing: "2px",
+                    borderBottom: "1px solid rgba(255,255,255,0.25)",
+                    width: "100%",
+                    transition: "opacity 0.18s ease",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.color = "#ffffff";
-                    e.currentTarget.style.background = "#00bf63";
-                    e.currentTarget.style.border = "1.5px solid #00a854";
-                    e.currentTarget.style.transform = "translateY(-2px)";
-                    e.currentTarget.style.boxShadow =
-                      "0 6px 20px rgba(0,191,99,0.30)";
-                    e.currentTarget.style.letterSpacing = "0.8px";
+                    e.currentTarget.style.opacity = "0.7";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.color = "#3d6b52";
-                    e.currentTarget.style.background = "transparent";
-                    e.currentTarget.style.border = "1.5px solid transparent";
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow = "none";
-                    e.currentTarget.style.letterSpacing = "0.6px";
+                    e.currentTarget.style.opacity = "1";
                   }}
                 >
-                  <span style={{ fontSize: "18px" }}>{icon}</span>
-                  <span style={{ fontWeight: "500" }}>{label}</span>
+                  <span style={{ fontSize: "16px" }}>{icon}</span>
+                  <span>{label}</span>
                 </a>
               ))}
             </div>
@@ -239,21 +302,38 @@ export default function PandaSectionA() {
         {/* Logo + Panda */}
         <div
           style={{
+            /* Adjusted for CJ Style        
+              display: "flex",
+              alignItems: "center",
+              gap: "0.2rem",
+              marginBottom: isMobile ? "28px" : "36px",
+              //change the bottom margin for mobile a bit
+             */
             display: "flex",
             alignItems: "center",
-            gap: "14px",
+            gap: "0.2rem",
             marginBottom: isMobile ? "28px" : "36px",
+            position: "relative",
+            zIndex: 120,
+            // index: 200(was)
+            // background: "yellow",
+            width: "fit-content",
+            // padding: "20px",
           }}
         >
           <img
             src={logo}
             alt="Panda Logo"
-            style={{ width: "clamp(110px, 18vw, 170px)" }}
+            // style={{ width: "clamp(110px, 18vw, 170px)" }}
+            // NOTE: width is subject to change
+            style={{ width: isMobile ? "85px" : "clamp(110px, 18vw, 170px)" }}
           />
           <span
             style={{
               fontFamily: "'Norwester', 'Georgia', serif",
-              fontSize: isMobile ? "28px" : "48px",
+              // fontSize: isMobile ? "28px" : "48px",
+              // NOTE: fontSize is subject to change
+              fontSize: isMobile ? "22px" : "48px",
               fontWeight: "400",
               color: "#00bf63",
               letterSpacing: "2px",
@@ -265,27 +345,43 @@ export default function PandaSectionA() {
             Panda
           </span>
         </div>
+
         {/* ── MOBILE LAYOUT: single column ── */}
         {isMobile ? (
           <div style={{ display: "flex", flexDirection: "column" }}>
-            {/* Headline */}
-            <div style={{ marginTop: "1rem" }}>
+            {/* Headlines For Landing Page */}
+            {/* <div style={{ marginTop: "1rem" }}> */}
+            <div style={{ marginTop: "0rem" }}>
               <h1
                 style={{
+                  /*                   
                   margin: 0,
                   fontFamily: "'Georgia', serif",
                   fontSize: "clamp(46px, 12vw, 62px)",
                   fontWeight: "normal",
                   color: "#1a1a1a",
+                  lineHeight: 1.03, */
+
+                  margin: 0,
+                  fontFamily: "'Georgia', serif",
+                  // fontSize: "clamp(46px, 12vw, 62px)",
+                  fontSize: "clamp(36px, 10vw, 50px)",
+                  fontWeight: "normal",
+                  color: "#1a1a1a",
                   lineHeight: 1.03,
+                  display: "flex",
+                  alignItems: "center",
+                  flexWrap: "wrap",
                 }}
               >
                 Plant trees<span style={{ fontSize: "1em" }}>🌱</span>
               </h1>
+
               <h1
                 style={{
                   margin: "0 0 1rem",
-                  fontSize: "clamp(46px, 12vw, 62px)",
+                  // fontSize: "clamp(46px, 12vw, 62px)",
+                  fontSize: "clamp(36px, 10vw, 50px)",
                   color: "#00bf63",
                   lineHeight: 1.03,
                   fontFamily: "'Georgia', serif",
@@ -294,11 +390,15 @@ export default function PandaSectionA() {
               >
                 Make memories.
               </h1>
+
               <p
                 style={{
-                  marginTop: "16px",
-                  marginBottom: 0,
-                  fontSize: "clamp(22px, 6vw, 30px)",
+                  // marginTop: "16px",
+                  marginTop: "-12px",
+                  // marginBottom: 0,
+                  marginBottom: "-4px",
+                  // fontSize: "clamp(22px, 6vw, 30px)",
+                  fontSize: "clamp(18px, 4.5vw, 22px)",
                   color: "#8e99a2",
                   lineHeight: 1.45,
                   fontFamily: "'Georgia', serif",
@@ -310,12 +410,17 @@ export default function PandaSectionA() {
                 but it's more than that!
               </p>
               <div style={{ width: "80%", overflow: "hidden" }}>
-                <WavyLine />
+                {/* <WavyLine /> */}
+                <div style={{ marginTop: "24px" }}>
+                  <DownloadButton />
+                </div>
               </div>
             </div>
 
-            {/* "A TREE-PLANTING MOVEMENT" badge */}
-            <div
+            {/* "A TREE-PLANTING MOVEMENT" badge 
+              Might Change mind!
+            */}
+            {/*             <div
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -340,6 +445,7 @@ export default function PandaSectionA() {
               </span>
               <span style={{ fontSize: "2rem" }}>🌍</span>
             </div>
+           */}
 
             {/* Phone + green blob — centred */}
             <div
@@ -484,12 +590,13 @@ export default function PandaSectionA() {
                 alignItems: "flex-start",
                 position: "absolute",
                 right: 100,
+                // Original
                 // top: 120,
-                top: 80,
+                // Accomodate download btn
+                top: 120,
               }}
             >
               <DownloadButton />
-
               <div
                 style={{
                   position: "relative",

@@ -29,3 +29,10 @@ scripts/
 png_jpg/
 No_Internet_Feature_Up4.webp
 Panda_Internet_Issue_Deprecated.webp
+
+# Editor directories and files
+draft.md
+PersonalVolt
+
+# transfer to WSL files 
+*:Zone.Identifier

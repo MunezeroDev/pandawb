@@ -20,58 +20,6 @@ export default function PandaFooter() {
         borderTop: "1px solid #e8ede9",
       }}
     >
-      {/* ── TOP ROW ── */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: isMobile ? "column" : "row",
-          justifyContent: "space-between",
-          alignItems: isMobile ? "flex-start" : "center",
-          marginBottom: "48px",
-          gap: isMobile ? "20px" : "0",
-        }}
-      >
-        {/* Logo text-only fallback */}
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <div
-            style={{
-              width: "40px",
-              height: "40px",
-              borderRadius: "50%",
-              background: "#00bf63",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "20px",
-            }}
-          >
-            🐼
-          </div>
-          <span
-            style={{
-              fontSize: "26px",
-              fontWeight: "700",
-              color: "#00bf63",
-              letterSpacing: "1px",
-              fontFamily: "'Georgia', serif",
-            }}
-          >
-            Panda
-          </span>
-        </div>
-
-        <p
-          style={{
-            margin: 0,
-            fontSize: isMobile ? "15px" : "17px",
-            color: "#6b7280",
-            fontStyle: "italic",
-          }}
-        >
-          Plant trees. Make memories. Change the world. 🌍
-        </p>
-      </div>
-
       {/* ── MIDDLE ROW ── */}
       <div
         style={{

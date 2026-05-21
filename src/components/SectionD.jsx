@@ -36,6 +36,7 @@ const FeatureCard = ({ feature, isMobile }) => {
 
   if (isMobile) {
     return (
+      /* Feature Container */
       <div
         style={{
           borderRadius: "20px",
@@ -47,7 +48,17 @@ const FeatureCard = ({ feature, isMobile }) => {
         }}
       >
         {/* Image */}
-        <div style={{ height: "400px", overflow: "hidden", flexShrink: 0 }}>
+
+        {/* <div style={{ height: "400px", overflow: "hidden", flexShrink: 0 }}> */}
+        {/* switched to aspect ratio */}
+        <div
+          style={{
+            aspectRatio: "4/5",
+            overflow: "hidden",
+            flexShrink: 0,
+            background: "#0F172A",
+          }}
+        >
           <img
             src={feature.image}
             alt={feature.title}
@@ -55,6 +66,7 @@ const FeatureCard = ({ feature, isMobile }) => {
               width: "100%",
               height: "100%",
               objectFit: "cover",
+              objectFit: "contain",
               display: "block",
             }}
           />
@@ -80,7 +92,7 @@ const FeatureCard = ({ feature, isMobile }) => {
           >
             {feature.title}
           </h3>
-          <p
+          {/* <p
             style={{
               margin: 0,
               fontSize: "13px",
@@ -91,7 +103,7 @@ const FeatureCard = ({ feature, isMobile }) => {
             }}
           >
             {feature.description}
-          </p>
+          </p> */}
         </div>
       </div>
     );
@@ -196,8 +208,10 @@ export default function PandaSectionD() {
         fontFamily: "'Georgia', 'Times New Roman', serif",
         background: "#ffffff",
         minHeight: "80vh",
-        padding: isMobile ? "40px 20px 56px" : "32px 52px 60px",
+        // padding: isMobile ? "40px 20px 56px" : "32px 52px 60px",
+        padding: isMobile ? "25px 24px 48px" : "28px 52px 0",
         marginLeft: isMobile ? "0" : "80px",
+        // background: "yellow",
         boxSizing: "border-box",
       }}
     >

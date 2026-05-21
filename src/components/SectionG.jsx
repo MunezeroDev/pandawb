@@ -61,8 +61,9 @@ export default function PandaSectionG() {
       style={{
         fontFamily: "'Georgia', 'Times New Roman', serif",
         background: "#ffffff",
-        minHeight: "100vh",
-        padding: isMobile ? "40px 24px" : "22px 52px",
+        // minHeight: "100vh",
+        minHeight: isMobile ? "content-fit" : "80vh",
+        padding: isMobile ? "30px 24px" : "22px 52px",
         marginLeft: isMobile ? "0" : "80px",
         boxSizing: "border-box",
         overflow: "hidden",
