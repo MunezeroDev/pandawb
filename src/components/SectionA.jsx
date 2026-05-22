@@ -78,7 +78,7 @@ export default function PandaSectionA() {
     { label: "Features", id: "features" },
     { label: "Using Panda", id: "usingPanda" },
     { label: "In Action", id: "inAction" },
-    { label: "Contact", id: "contact" },
+    { label: "Form", id: "form" },
   ];
 
   return (

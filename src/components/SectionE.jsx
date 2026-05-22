@@ -92,11 +92,16 @@ export default function PandaSectionE() {
         /* ── Desktop — centred, scaled down, not overwhelming ── */
         <>
           <header
-            style={{ marginBottom: "40px", textAlign: "center", width: "100%" }}
+            style={{
+              marginTop: "2rem",
+              marginBottom: "40px",
+              textAlign: "center",
+              width: "100%",
+            }}
           >
             <h1
               style={{
-                fontSize: "clamp(48px, 6vw, 80px)",
+                fontSize: "clamp(32px, 6vw, 70px)",
                 fontFamily: "'Georgia', serif",
                 fontWeight: "normal",
                 lineHeight: 1.05,

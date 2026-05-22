@@ -33,7 +33,8 @@ export default function PandaSectionB() {
             style={{
               fontSize: isMobile
                 ? "clamp(48px,12vw,80px)"
-                : "clamp(64px,8vw,110px)",
+                : "clamp(56px, 6vw, 80px)",
+              // "clamp(64px,8vw,110px)",
               fontFamily: "'Georgia', serif",
               fontWeight: "normal",
               lineHeight: 1.03,

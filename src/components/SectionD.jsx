@@ -65,7 +65,7 @@ const FeatureCard = ({ feature, isMobile }) => {
             style={{
               width: "100%",
               height: "100%",
-              objectFit: "cover",
+              // objectFit: "cover",
               objectFit: "contain",
               display: "block",
             }}

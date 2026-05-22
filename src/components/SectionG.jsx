@@ -81,7 +81,7 @@ export default function PandaSectionG() {
           fontWeight: "normal",
           fontSize: isMobile
             ? "clamp(32px, 9vw, 52px)"
-            : "clamp(48px, 6vw, 80px)",
+            : "clamp(32px, 6vw, 70px)",
           color: "#1a1a1a",
           textAlign: "center",
           letterSpacing: "-1px",
@@ -103,8 +103,8 @@ export default function PandaSectionG() {
           borderRadius: "20px",
           overflow: "hidden",
           background: "#0a0f1a",
-          boxShadow:
-            "0 32px 80px rgba(0,0,0,0.18), 0 8px 24px rgba(0,0,0,0.12)",
+          // boxShadow:
+          //   "0 32px 80px rgba(0,0,0,0.18), 0 8px 24px rgba(0,0,0,0.12)",
           position: "relative",
           cursor: showControls ? "default" : "none",
           ...containerStyle,

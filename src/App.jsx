@@ -6,6 +6,7 @@ import SectionE from "./components/SectionE";
 import SectionG from "./components/SectionG";
 import Footer from "./components/XFooter";
 import ScrollToTop from "./components/ScrollToTop";
+import EmbeddedForm from "./components/EmbeddedForm";
 
 import { useEffect } from "react";
 
@@ -21,6 +22,7 @@ function App() {
       <SectionD />
       <SectionE />
       <SectionG />
+      <EmbeddedForm />
       <Footer />
       <ScrollToTop />
     </div>
