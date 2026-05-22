@@ -4,6 +4,7 @@ import logo from "../assets/panda-logo.webp";
 import phoneMockup from "../assets/panda_app_mockup.webp";
 import underline from "../assets/svg_underline.webp";
 import seedlingIcon from "../assets/seedling_img.jpg";
+import mbseedlingIcon from "../assets/seedling_mobile_img.png";
 import DownloadButton from "./DownloadButton";
 
 const norwesterStyle = `
@@ -34,6 +35,19 @@ const PhoneMockup = ({ isMobile }) => (
 const SproutIcon = () => (
   <img
     src={seedlingIcon}
+    alt="seedlingIcon"
+    style={{
+      height: "1em",
+      width: "auto",
+      verticalAlign: "middle",
+      marginLeft: "6px",
+    }}
+  />
+);
+
+const mbSeedlingImg = () => (
+  <img
+    src={mbseedlingIcon}
     alt="seedlingIcon"
     style={{
       height: "1em",
@@ -170,8 +184,6 @@ export default function PandaSectionA() {
               />
             </button>
 
-            {/* Dropdown Div For Mobile Navbar*/}
-
             {/* Dropdown Div For Mobile Navbar: CJ STYLE */}
             <div
               style={{
@@ -280,13 +292,6 @@ export default function PandaSectionA() {
         {/* Logo + Panda */}
         <div
           style={{
-            /* Adjusted for CJ Style        
-              display: "flex",
-              alignItems: "center",
-              gap: "0.2rem",
-              marginBottom: isMobile ? "28px" : "36px",
-              //change the bottom margin for mobile a bit
-             */
             display: "flex",
             alignItems: "center",
             gap: "0.2rem",
@@ -344,7 +349,10 @@ export default function PandaSectionA() {
                   flexWrap: "wrap",
                 }}
               >
-                Plant trees<span style={{ fontSize: "1em" }}>🌱</span>
+                Plant trees
+                <span style={{ fontSize: "1em" }}>
+                  <mbSeedlingImg />
+                </span>
               </h1>
 
               <h1
