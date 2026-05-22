@@ -6,6 +6,6 @@ export default defineConfig({
   base: "/pandawb/",
   server: {
     host: "0.0.0.0",
-    port: 5173,
+    port: 5174,
   },
 });

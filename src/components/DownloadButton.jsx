@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import applePng from "../assets/apple-logo.png";
 
 /* ─── Keyframes & base styles ─────────────────────────────────────────── */
 const css = `
@@ -18,14 +19,6 @@ const css = `
     from { opacity: 0; }
     to   { opacity: 1; }
   }
-  @keyframes toast-in {
-    from { opacity: 0; transform: translateY(-16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes toast-out {
-    from { opacity: 1; transform: translateY(0); }
-    to   { opacity: 0; transform: translateY(-16px); }
-  }
   .dl-ripple {
     position: absolute; border-radius: 50%;
     background: rgba(255,255,255,0.22);
@@ -37,15 +30,12 @@ const css = `
   .dl-ripple.active { animation: ripple-out 0.5s ease-out forwards; }
   .dl-backdrop      { animation: backdrop-fade-in 0.2s ease forwards; }
   .dl-popup         { animation: popup-slide-in 0.32s cubic-bezier(0.34,1.56,0.64,1) forwards; }
-  .dl-toast     { animation: toast-in 0.32s cubic-bezier(0.34,1.56,0.64,1) forwards; }
-  .dl-toast-out { animation: toast-out 0.28s ease-in forwards; }
 `;
 
 /* ─── Notice configuration ─────────────────────────────────────────────── */
 const NOTICES = {
   ios: {
-    // TODO: replace with Svg for apple
-    emoji: "🍎",
+    icon: <img src={applePng} width="42" height="42" alt="iOS" />,
     title: "Panda is currently not available on iOS.",
     body: "We're currently developing the iOS version. Stay tuned for updates.",
     autoDismiss: true,
@@ -65,23 +55,31 @@ const NOTICES = {
     autoDismiss: true,
     dismissAfter: 5000,
   },
-  success: {
-    emoji: "✅",
-    title: "Download Started!",
-    body: null, // guide rendered separately
-    autoDismiss: false, // stays until user dismisses
+  android: {
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="48px"
+        viewBox="0 -960 960 960"
+        width="48px"
+        fill="#0fa114"
+      >
+        <path d="M40-240q9-107 65.5-197T256-580l-74-128q-6-9-3-19t13-15q8-5 18-2t16 12l74 128q86-36 180-36t180 36l74-128q6-9 16-12t18 2q10 5 13 15t-3 19l-74 128q94 53 150.5 143T920-240H40Zm275.5-124.5Q330-379 330-400t-14.5-35.5Q301-450 280-450t-35.5 14.5Q230-421 230-400t14.5 35.5Q259-350 280-350t35.5-14.5Zm400 0Q730-379 730-400t-14.5-35.5Q701-450 680-450t-35.5 14.5Q630-421 630-400t14.5 35.5Q659-350 680-350t35.5-14.5Z" />
+      </svg>
+    ),
+    title: "Before you install",
+    bullets: [
+      "This file is safe. Panda is just not on the Play Store yet.",
+      'You may need to allow "Install unknown apps" or "Allow from this source" when prompted.',
+      "Your browser will handle the download.",
+    ],
+    autoDismiss: false,
     dismissAfter: null,
   },
 };
 
 /* ─── Overlay / Popup ──────────────────────────────────────────────────── */
-function NoticeOverlay({
-  notice,
-  onClose,
-  scopeRect,
-  successStage,
-  bannerLeaving,
-}) {
+function NoticeOverlay({ notice, onClose, onAndroidConfirm, scopeRect }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -99,7 +97,7 @@ function NoticeOverlay({
   return (
     <div
       className="dl-backdrop"
-      onClick={ready && successStage === "guide" ? onClose : undefined}
+      onClick={ready ? onClose : undefined}
       style={{
         ...(scopeRect
           ? {
@@ -110,9 +108,7 @@ function NoticeOverlay({
               height: scopeRect.height,
             }
           : { position: "fixed", inset: 0 }),
-        // background: "rgba(10, 30, 18, 0.82)",
-        background:
-          successStage === "banner" ? "transparent" : "rgba(10, 30, 18, 0.82)",
+
         backdropFilter: "blur(6px)",
         WebkitBackdropFilter: "blur(6px)",
         display: "flex",
@@ -122,226 +118,122 @@ function NoticeOverlay({
         padding: "20px",
       }}
     >
-      {notice === "success" && successStage === "banner" ? (
-        /* ── Phase 1: Banner ── */
+      <div
+        className="dl-popup"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: "#ffffff",
+          borderRadius: "22px",
+          padding: "32px 28px",
+          maxWidth: "320px",
+          width: "100%",
+          maxHeight: scopeRect ? "90%" : "90vh",
+          overflowY: "auto",
+          boxShadow:
+            "0 24px 64px rgba(0,0,0,0.22), 0 2px 8px rgba(0,191,99,0.1)",
+          position: "relative",
+          textAlign: "center",
+          fontFamily: "'Georgia', serif",
+        }}
+      >
+        {/* Green top bar */}
         <div
           style={{
-            position: "fixed",
-            top: "16px",
+            position: "absolute",
+            top: 0,
             left: 0,
             right: 0,
-            display: "flex",
-            justifyContent: "center",
-            zIndex: 9999,
-            pointerEvents: "none",
+            height: "5px",
+            background: "linear-gradient(90deg, #00bf63, #00d46e)",
+            borderRadius: "22px 22px 0 0",
           }}
-        >
-          <div
-            className={bannerLeaving ? "dl-toast-out" : "dl-toast"}
-            style={{
-              pointerEvents: "auto",
-              background: "#ffffff",
-              borderRadius: "14px",
-              padding: "12px 20px",
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              boxShadow:
-                "0 4px 24px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.08)",
-              border: "1px solid #c8f0dc",
-              borderLeft: "4px solid #00bf63",
-              minWidth: "260px",
-              maxWidth: "340px",
-            }}
-          >
-            <span style={{ fontSize: "1.4rem" }}>✅</span>
-            <div>
-              <p
-                style={{
-                  margin: 0,
-                  fontWeight: "700",
-                  color: "#0f2d1c",
-                  fontSize: "0.95rem",
-                  fontFamily: "'Georgia', serif",
-                }}
-              >
-                Download Started!
-              </p>
-              <p
-                style={{
-                  margin: 0,
-                  color: "#3d6b4f",
-                  fontSize: "0.78rem",
-                  marginTop: "2px",
-                  fontFamily: "'Georgia', serif",
-                }}
-              >
-                Your APK is downloading…
-              </p>
-            </div>
-          </div>
-        </div>
-      ) : (
-        /* ── Phase 2: Guide + all other notices ── */
+        />
+
+        {/* Emoji icon */}
         <div
-          className="dl-popup"
-          onClick={(e) => e.stopPropagation()}
           style={{
-            background: "#ffffff",
-            borderRadius: "22px",
-            padding: notice === "success" ? "28px 24px 32px" : "32px 28px",
-            maxWidth: notice === "success" ? "360px" : "320px",
-            width: "100%",
-            maxHeight: scopeRect ? "90%" : "90vh",
-            overflowY: "auto",
-            boxShadow:
-              "0 24px 64px rgba(0,0,0,0.22), 0 2px 8px rgba(0,191,99,0.1)",
-            position: "relative",
-            textAlign: "center",
-            fontFamily: "'Georgia', serif",
+            fontSize: "2.6rem",
+            marginTop: "10px",
+            marginBottom: "14px",
           }}
         >
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              height: "5px",
-              background: "linear-gradient(90deg, #00bf63, #00d46e)",
-              borderRadius: "22px 22px 0 0",
-            }}
-          />
+          {/* {cfg.emoji} */}
+          {cfg.icon ?? cfg.emoji}
+        </div>
 
-          <button
-            onClick={onClose}
-            aria-label="Close"
-            style={{
-              position: "absolute",
-              top: "14px",
-              right: "16px",
-              background: "#f0faf4",
-              border: "none",
-              borderRadius: "50%",
-              width: "30px",
-              height: "30px",
-              cursor: "pointer",
-              color: "#4a7c5f",
-              fontSize: "16px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              lineHeight: 1,
-            }}
-          >
-            ✕
-          </button>
+        {/* Title */}
+        <p
+          style={{
+            margin: "0 0 10px",
+            fontSize: "1rem",
+            fontWeight: "700",
+            color: "#0f2d1c",
+            letterSpacing: "0.2px",
+            lineHeight: 1.4,
+          }}
+        >
+          {cfg.title}
+        </p>
 
-          <div
-            style={{
-              fontSize: "2.6rem",
-              marginTop: "10px",
-              marginBottom: "14px",
-            }}
-          >
-            {notice === "success" ? "📲" : cfg.emoji}
-          </div>
-
+        {/* Body text — ios, desktop, server */}
+        {cfg.body && (
           <p
             style={{
-              margin: "0 0 10px",
-              fontSize: "1rem",
-              fontWeight: "700",
-              color: "#0f2d1c",
-              letterSpacing: "0.2px",
-              lineHeight: 1.4,
+              margin: 0,
+              fontSize: "0.875rem",
+              color: "#3d6b4f",
+              lineHeight: 1.6,
             }}
           >
-            {notice === "success" ? "How to Install" : cfg.title}
+            {cfg.body}
           </p>
+        )}
 
-          {cfg.body && notice !== "success" && (
-            <p
-              style={{
-                margin: 0,
-                fontSize: "0.875rem",
-                color: "#3d6b4f",
-                lineHeight: 1.6,
-              }}
-            >
-              {cfg.body}
-            </p>
-          )}
+        {/* Bullet list — android */}
+        {notice === "android" && (
+          <ul
+            style={{
+              margin: "16px 0 0",
+              paddingLeft: "18px",
+              fontSize: "0.875rem",
+              color: "#1a3c2a",
+              lineHeight: 1.9,
+              textAlign: "left",
+            }}
+          >
+            {cfg.bullets.map((b, i) => (
+              <li key={i}>{b}</li>
+            ))}
+          </ul>
+        )}
 
-          {notice === "success" && (
-            <div style={{ textAlign: "left", marginTop: "22px" }}>
-              <ol
-                style={{
-                  margin: 0,
-                  paddingLeft: "18px",
-                  fontSize: "0.85rem",
-                  color: "#1a3c2a",
-                  lineHeight: "1.9",
-                }}
-              >
-                <li>
-                  Open <strong>Downloads</strong>
-                </li>
-                <li>
-                  Tap the <strong>.apk</strong> file
-                </li>
-                <li>
-                  Tap <strong>Install</strong>
-                </li>
-                <li>
-                  If blocked or unable to install:
-                  <ol
-                    style={{
-                      paddingLeft: "16px",
-                      marginTop: "4px",
-                      listStyleType: "lower-alpha",
-                    }}
-                  >
-                    <li>
-                      Tap <strong>Settings</strong>
-                    </li>
-                    <li>
-                      Turn on <em>"Allow from this source"</em> or{" "}
-                      <em>"Install unknown apps"</em>
-                    </li>
-                  </ol>
-                </li>
-                <li>
-                  Go back to <strong>Downloads</strong>
-                </li>
-                <li>
-                  Tap <strong>Install</strong> again
-                </li>
-              </ol>
-              <button
-                onClick={onClose}
-                style={{
-                  display: "block",
-                  width: "100%",
-                  marginTop: "22px",
-                  padding: "12px",
-                  background: "#00bf63",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: "999px",
-                  fontFamily: "'Georgia', serif",
-                  fontWeight: "700",
-                  fontSize: "0.9rem",
-                  cursor: "pointer",
-                  letterSpacing: "0.3px",
-                }}
-              >
-                Got it!
-              </button>
-            </div>
-          )}
-        </div>
-      )}
+        {/* Got it button — android */}
+        {notice === "android" && (
+          <button
+            onClick={() => {
+              onClose();
+              onAndroidConfirm();
+            }}
+            style={{
+              display: "block",
+              width: "100%",
+              marginTop: "22px",
+              padding: "12px",
+              background: "#00bf63",
+              color: "#fff",
+              border: "none",
+              borderRadius: "999px",
+              fontFamily: "'Georgia', serif",
+              fontWeight: "700",
+              fontSize: "0.9rem",
+              cursor: "pointer",
+              letterSpacing: "0.3px",
+            }}
+          >
+            Got it
+          </button>
+        )}
+      </div>
     </div>
   );
 }
@@ -350,11 +242,8 @@ function NoticeOverlay({
 export default function DownloadButton({ scopeRef }) {
   const rippleRef = useRef(null);
   const timerRef = useRef(null);
-  const guideTimerRef = useRef(null);
   const [notice, setNotice] = useState(null);
   const [scopeRect, setScopeRect] = useState(null);
-  const [successStage, setSuccessStage] = useState("banner");
-  const [bannerLeaving, setBannerLeaving] = useState(false);
 
   /* Open a notice; auto-dismiss notices clear themselves */
   const openNotice = (type) => {
@@ -371,33 +260,17 @@ export default function DownloadButton({ scopeRef }) {
     }
 
     clearTimeout(timerRef.current);
-    clearTimeout(guideTimerRef.current);
-
-    if (type === "success") {
-      setSuccessStage("banner");
-      setBannerLeaving(false);
-      setNotice("success");
-      timerRef.current = setTimeout(() => setBannerLeaving(true), 1700);
-      guideTimerRef.current = setTimeout(() => {
-        setBannerLeaving(false);
-        setSuccessStage("guide");
-      }, 1100);
-      // 2100);
-      return;
-    }
-
     setNotice(type);
+
     const cfg = NOTICES[type];
     if (cfg.autoDismiss) {
       timerRef.current = setTimeout(() => setNotice(null), cfg.dismissAfter);
     }
   };
+
   const closeNotice = () => {
     clearTimeout(timerRef.current);
-    clearTimeout(guideTimerRef.current);
     setNotice(null);
-    setSuccessStage("banner");
-    setBannerLeaving(false);
   };
 
   const triggerRipple = () => {
@@ -408,22 +281,32 @@ export default function DownloadButton({ scopeRef }) {
     el.classList.add("active");
   };
 
-  const handleDownload = async () => {
+  /* ─── Hand download straight to the browser ─────────────────────────── */
+  const triggerDownload = () => {
+    const APK_URL =
+      "https://qzhmm6zmlofstw5b.public.blob.vercel-storage.com/panda.apk";
+    const a = document.createElement("a");
+    a.href = APK_URL;
+    a.download = "panda.apk";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  /* ─── Button click — device detection only ──────────────────────────── */
+  const handleDownload = () => {
     const ua = navigator.userAgent;
 
-    /* iOS phone */
     if (/iPhone|iPod/i.test(ua)) {
       openNotice("ios");
       return;
     }
 
-    /* Desktop (Windows, Mac, Linux non-Android) */
     const isDesktop =
       /Win/i.test(ua) ||
       (/Macintosh/i.test(ua) && !/iPhone|iPad/i.test(ua)) ||
       (/Linux/i.test(ua) && !/Android/i.test(ua));
 
-    /* iPad or Android tablet */
     const isTablet =
       /iPad/i.test(ua) || (/Android/i.test(ua) && !/mobile/i.test(ua));
 
@@ -432,25 +315,7 @@ export default function DownloadButton({ scopeRef }) {
       return;
     }
 
-    /* Android phone — ping server first */
-    try {
-      const res = await fetch("YOUR_EXPRESS_DOWNLOAD_ENDPOINT", {
-        method: "HEAD",
-        signal: AbortSignal.timeout(5000),
-      });
-      if (!res.ok) {
-        openNotice("server");
-        return;
-      }
-    } catch {
-      openNotice("server");
-      return;
-    }
-
-    /* All clear — start download */
-    openNotice("success");
-    // FIX: WHEN URL IS READY OPEN
-    // window.location.href = "YOUR_EXPRESS_DOWNLOAD_ENDPOINT";
+    openNotice("android");
   };
 
   return (
@@ -459,9 +324,8 @@ export default function DownloadButton({ scopeRef }) {
       <NoticeOverlay
         notice={notice}
         onClose={closeNotice}
+        onAndroidConfirm={triggerDownload}
         scopeRect={scopeRect}
-        successStage={successStage}
-        bannerLeaving={bannerLeaving}
       />
 
       <div
