@@ -45,7 +45,7 @@ const SproutIcon = () => (
   />
 );
 
-const mbSeedlingImg = () => (
+const MbSeedlingImg = () => (
   <img
     src={mbseedlingIcon}
     alt="seedlingIcon"
@@ -351,7 +351,7 @@ export default function PandaSectionA() {
               >
                 Plant trees
                 <span style={{ fontSize: "1em" }}>
-                  <mbSeedlingImg />
+                  <MbSeedlingImg />
                 </span>
               </h1>
 
