@@ -10,19 +10,15 @@ import EmbeddedForm from "./components/EmbeddedForm";
 
 import { useEffect } from "react";
 
-useEffect(() => {
-  const hash = window.location.hash;
-  if (hash) {
-    setTimeout(() => {
-      const el = document.querySelector(hash);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
-    }, 500);
-  }
-}, []);
-
 function App() {
   useEffect(() => {
-    document.documentElement.style.scrollBehavior = "smooth";
+    const hash = window.location.hash;
+    if (hash) {
+      setTimeout(() => {
+        const el = document.querySelector(hash);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 500);
+    }
   }, []);
   return (
     <div>
