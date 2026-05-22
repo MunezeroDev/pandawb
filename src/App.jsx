@@ -17,7 +17,7 @@ function App() {
       setTimeout(() => {
         const el = document.querySelector(hash);
         if (el) el.scrollIntoView({ behavior: "smooth" });
-      }, 500);
+      }, 100);
     }
   }, []);
   return (
