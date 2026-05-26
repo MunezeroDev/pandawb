@@ -94,14 +94,14 @@ export default function PandaSectionE() {
           <header
             style={{
               marginTop: "2rem",
-              marginBottom: "40px",
+              marginBottom: "24px",
               textAlign: "center",
               width: "100%",
             }}
           >
             <h1
               style={{
-                fontSize: "clamp(32px, 6vw, 70px)",
+                fontSize: "clamp(24px, 6vw, 60px)",
                 fontFamily: "'Georgia', serif",
                 fontWeight: "normal",
                 lineHeight: 1.05,
@@ -118,14 +118,14 @@ export default function PandaSectionE() {
           <div
             style={{
               width: "100%",
-              maxWidth: "820px",
+              maxWidth: "550px",
               borderRadius: "24px",
               overflow: "hidden",
-              boxShadow:
-                "0 12px 48px rgba(0,0,0,0.10), 0 4px 16px rgba(0,0,0,0.06)",
+              // boxShadow:
+              // "0 12px 48rgba(18, 17, 17, 0.1)10), 0 4px 16px rgba(0,0,0,0.06)",
               background: "#f9fafb",
-              padding: "24px 24px",
-              boxSizing: "border-box",
+              padding: "2rem",
+              // boxSizing: "border-box",
             }}
           >
             <img
