@@ -59,7 +59,7 @@ export default function EmbeddedForm() {
       <iframe
         src="https://docs.google.com/forms/d/e/1FAIpQLSePewoKFrXQudYzC_P36UHWxX8iTyGIEraxJ3FzmXNUGIfa4w/viewform?embedded=true"
         width="100%"
-        height={isMobile ? "2150px" : "1900px"}
+        height={isMobile ? "2150px" : "1970"}
         frameBorder="0"
         marginHeight="0"
         marginWidth="0"
