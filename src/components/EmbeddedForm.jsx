@@ -23,6 +23,7 @@ export default function EmbeddedForm() {
         marginBottom: "-3rem",
         boxSizing: "border-box",
         overflow: "hidden",
+        marginBottom: "1rem",
       }}
     >
       {/* Header */}
