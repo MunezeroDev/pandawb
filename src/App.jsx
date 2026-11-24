@@ -7,6 +7,7 @@ import SectionG from "./components/SectionG";
 import Footer from "./components/XFooter";
 import ScrollToTop from "./components/ScrollToTop";
 import EmbeddedForm from "./components/EmbeddedForm";
+import GoalReport from "./components/GoalReport";
 
 import { useEffect } from "react";
 
@@ -28,6 +29,7 @@ function App() {
       <SectionD />
       <SectionE />
       <SectionG />
+      <GoalReport />
       <EmbeddedForm />
       <Footer />
       <ScrollToTop />
