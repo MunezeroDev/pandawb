@@ -1,3 +1,6 @@
+// TODO: replace with the live Panda system URL.
+export const PANDA_APP_URL = "#";
+
 export const APK_URL =
   "https://qzhmm6zmlofstw5b.public.blob.vercel-storage.com/panda.apk";
 

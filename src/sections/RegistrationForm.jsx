@@ -4,7 +4,7 @@ export default function RegistrationForm() {
   return (
     <section
       id="form"
-      className="mb-[1rem] ml-0 overflow-hidden bg-form-bg px-0 pt-8 pb-14 font-body md:pt-[52px] md:pb-[60px]"
+      className="mb-[1rem] overflow-hidden bg-form-bg px-0 py-10 font-body md:pt-[52px] md:pb-[60px]"
     >
       <header className="mb-4 text-center md:mb-8">
         <h1 className="font-display text-[clamp(36px,10vw,56px)] leading-none font-normal tracking-[-1px] text-ink md:text-[clamp(32px,4vw,72px)]">

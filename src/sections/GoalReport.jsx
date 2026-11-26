@@ -36,7 +36,7 @@ export default function GoalReport() {
   return (
     <section
       id="goals"
-      className="min-h-[80vh] bg-white px-5 pt-[25px] pb-12 font-body md:ml-20 md:px-[52px] md:pt-7 md:pb-14"
+      className="bg-white px-5 py-10 font-body md:min-h-[80vh] md:mx-[3.25rem] md:px-0 md:pt-7 md:pb-14"
     >
       <header className="mb-7 text-center md:mb-10">
         <h1 className="text-[clamp(36px,10vw,56px)] leading-[1.05] font-normal tracking-[-1px] text-ink md:text-[clamp(32px,6vw,70px)]">

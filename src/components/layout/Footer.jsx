@@ -30,7 +30,7 @@ export default function Footer() {
   return (
     <footer
       id="contact"
-      className="border-t border-divider bg-white px-6 pt-10 pb-6 font-body md:px-[52px] md:pt-14 md:pb-7"
+      className="border-t border-divider bg-white px-6 pt-10 pb-6 font-body md:px-[3.25rem] md:pt-14 md:pb-7"
     >
       <div className="mb-12 flex flex-col justify-between gap-9 md:flex-row md:gap-0">
         <LinkColumn title="Company" links={COMPANY_LINKS} />

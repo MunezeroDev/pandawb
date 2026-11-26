@@ -6,6 +6,7 @@ import HowItWorks from "./sections/HowItWorks";
 import InAction from "./sections/InAction";
 import GoalReport from "./sections/GoalReport";
 import RegistrationForm from "./sections/RegistrationForm";
+import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import ScrollToTopButton from "./components/ui/ScrollToTopButton";
 import useHashScroll from "./hooks/useHashScroll";
@@ -15,6 +16,7 @@ export default function App() {
 
   return (
     <div>
+      <Header />
       <Hero />
       <About />
       <Features />

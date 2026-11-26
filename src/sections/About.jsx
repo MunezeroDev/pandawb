@@ -6,7 +6,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="min-h-[80vh] overflow-hidden px-6 pt-[25px] pb-12 font-body md:ml-20 md:px-[52px] md:pt-7 md:pb-0"
+      className="overflow-hidden px-6 py-10 font-body md:min-h-[80vh] md:mx-[3.25rem] md:px-0 md:pt-7 md:pb-0"
     >
       <header className="mb-7 md:mb-10">
         <h1 className="font-display text-[clamp(48px,12vw,80px)] leading-[1.03] font-normal tracking-[-2px] text-ink md:text-[clamp(56px,6vw,80px)]">
@@ -52,7 +52,7 @@ export default function About() {
             </button>
           </div>
 
-          <p className="font-display text-[16px] leading-[1.75] text-ink-soft md:text-[18px]">
+          <p className="ml-1 border-l-2 border-brand pl-5 font-display text-[16px] leading-[1.75] text-ink-soft italic md:pl-7 md:text-[18px]">
             Our vision is to transform tree-planting into a vibrant global
             movement through a fun, gamified experience that blends artistic
             collages, picture sharing, and the power of social media, towards a

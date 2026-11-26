@@ -1,8 +1,5 @@
-import { useRef } from "react";
-import Navbar from "../components/layout/Navbar";
-import DownloadButton from "../components/ui/DownloadButton";
+import AppLinkButton from "../components/ui/AppLinkButton";
 import useIsMobile from "../hooks/useIsMobile";
-import logo from "../assets/images/hero/panda-logo.webp";
 import appMockup from "../assets/images/hero/app-mockup.webp";
 import wavyUnderline from "../assets/images/hero/wavy-underline.webp";
 import seedling from "../assets/images/hero/seedling.jpg";
@@ -35,7 +32,7 @@ const SeedlingIcon = ({ src }) => (
   />
 );
 
-function MobileHero({ scopeRef }) {
+function MobileHero() {
   return (
     <div className="flex flex-col">
       <div>
@@ -51,58 +48,51 @@ function MobileHero({ scopeRef }) {
         <p className="-mt-3 -mb-1 font-display text-[clamp(18px,4.5vw,22px)] leading-[1.45] font-normal text-slate">
           <Tagline />
         </p>
-        <div className="w-[80%] overflow-hidden">
-          <div className="mt-6">
-            <DownloadButton scopeRef={scopeRef} />
-          </div>
+        <div className="mt-6 mb-8">
+          <AppLinkButton />
         </div>
       </div>
 
-      {/* Phone on a green blob, centred */}
-      <div className="relative mb-0 h-[380px] w-[260px] self-center">
+      {/* Phone on a green blob, centred; the stage is as tall as the phone. */}
+      <div className="relative flex w-[260px] justify-center self-center">
         <div
           className={`absolute top-5 left-1/2 z-[1] h-[320px] w-[320px] -translate-x-1/2 rounded-[50%] ${BLOB_GRADIENT}`}
         />
-        <div className="absolute top-0 left-1/2 z-[2] -translate-x-1/2">
-          <PhoneMockup className="w-[180px]" />
-        </div>
+        <PhoneMockup className="w-[180px]" />
       </div>
     </div>
   );
 }
 
+/**
+ * Two real columns (no absolute positioning) so the phone can never cover the
+ * headline; type and phone both step down on smaller tablets.
+ */
 function DesktopHero() {
-  const rightColumnRef = useRef(null);
-
   return (
-    <div className="flex flex-row items-start justify-between">
-      <div className="mt-[2rem] max-w-full flex-[0_0_100%]">
-        <h1 className="flex flex-wrap items-center font-display text-[clamp(72px,7.5vw,108px)] leading-[1.03] font-normal text-ink">
+    <div className="flex flex-row items-center justify-between gap-6 lg:gap-10">
+      <div className="min-w-0 flex-1">
+        <h1 className="flex flex-wrap items-center font-display text-[clamp(44px,6.2vw,96px)] leading-[1.03] font-normal text-ink">
           Plant trees&nbsp;
           <SeedlingIcon src={seedling} />
         </h1>
-        <h1 className="mb-[2rem] font-display text-[clamp(72px,7.5vw,108px)] leading-[1.03] font-normal text-brand">
+        <h1 className="mb-[2rem] font-display text-[clamp(44px,6.2vw,96px)] leading-[1.03] font-normal text-brand">
           Make memories.
         </h1>
-        <p className="mt-6 mb-0 font-display text-[clamp(28px,3vw,40px)] leading-[1.45] font-normal text-slate">
+        <p className="mt-6 mb-0 font-display text-[clamp(20px,2.4vw,36px)] leading-[1.45] font-normal text-slate">
           <Tagline />
         </p>
-        <img src={wavyUnderline} alt="" />
+        <img src={wavyUnderline} alt="" className="max-w-full" />
       </div>
 
-      {/* Download button + phone on a green blob, pinned to the right */}
-      <div
-        ref={rightColumnRef}
-        className="absolute top-[120px] right-[100px] flex flex-col items-start"
-      >
-        <DownloadButton scopeRef={rightColumnRef} />
-        <div className="relative ml-auto h-[560px] w-[360px]">
+      {/* Button + phone on a green blob, flush with the right gutter */}
+      <div className="flex shrink-0 flex-col items-center gap-8">
+        <AppLinkButton />
+        <div className="relative flex w-[230px] justify-center lg:w-[300px] xl:w-[400px]">
           <div
-            className={`absolute top-5 right-0 z-[1] h-[480px] w-[460px] rounded-[50%] ${BLOB_GRADIENT}`}
+            className={`absolute top-5 right-0 z-[1] h-[240px] w-full rounded-[50%] lg:h-[320px] xl:h-[420px] ${BLOB_GRADIENT}`}
           />
-          <div className="relative z-[2]">
-            <PhoneMockup className="w-[260px]" />
-          </div>
+          <PhoneMockup className="w-[170px] lg:w-[210px] xl:w-[250px]" />
         </div>
       </div>
     </div>
@@ -111,29 +101,13 @@ function DesktopHero() {
 
 export default function Hero() {
   const isMobile = useIsMobile();
-  const heroRef = useRef(null);
 
   return (
     <section
       id="home"
-      ref={heroRef}
-      className="relative min-h-screen overflow-hidden bg-white px-6 pt-5 pb-0 font-body md:ml-20 md:px-[52px] md:pt-7"
+      className="relative overflow-hidden bg-white px-6 pt-8 pb-10 font-body md:mx-[3.25rem] md:px-0 md:pt-10 md:pb-16"
     >
-      <Navbar isMobile={isMobile} />
-
-      {/* Logo + wordmark */}
-      <div className="relative z-[120] mb-7 flex w-fit items-center gap-[0.2rem] md:mb-9">
-        <img
-          src={logo}
-          alt="Panda Logo"
-          className="w-[85px] md:w-[clamp(110px,18vw,170px)]"
-        />
-        <span className="self-end pt-[2px] font-wordmark text-[22px] leading-none font-normal tracking-[2px] text-brand md:text-[48px]">
-          Panda
-        </span>
-      </div>
-
-      {isMobile ? <MobileHero scopeRef={heroRef} /> : <DesktopHero />}
+      {isMobile ? <MobileHero /> : <DesktopHero />}
     </section>
   );
 }

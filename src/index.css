@@ -61,6 +61,7 @@
   /* Download button / notice animations */
   --animate-bounce-icon: bounce-icon 1.6s ease-in-out infinite;
   --animate-backdrop-in: backdrop-fade-in 0.2s ease forwards;
+  --animate-stem-grow: stem-grow 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-popup-in: popup-slide-in 0.32s cubic-bezier(0.34, 1.56, 0.64, 1)
     forwards;
 
@@ -71,6 +72,14 @@
     }
     50% {
       transform: translateY(5px);
+    }
+  }
+  @keyframes stem-grow {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
     }
   }
   @keyframes backdrop-fade-in {
@@ -114,10 +123,21 @@
     box-sizing: border-box;
   }
 
+  /* clip (not hidden) so body is not a scroll container: sticky header needs that. */
   html,
   body {
-    overflow-x: hidden;
+    overflow-x: clip;
     max-width: 100vw;
+  }
+
+  /* Keep anchor targets clear of the sticky header (60px phone / 72px md+). */
+  html {
+    scroll-padding-top: 3.75rem;
+  }
+  @media (min-width: 768px) {
+    html {
+      scroll-padding-top: 4.5rem;
+    }
   }
 }
 
