@@ -42,7 +42,7 @@ export default function DownloadNotice({ type, scopeRect, onClose, onConfirm }) 
           scopeRect ? "max-h-[90%]" : "max-h-[90vh]",
         )}
       >
-        <div className="absolute top-0 right-0 left-0 h-[5px] rounded-t-[22px] bg-[linear-gradient(90deg,#00bf63,#00d46e)]" />
+        <div className="absolute top-0 right-0 left-0 h-[5px] rounded-t-[22px] bg-brand" />
 
         <div className="mt-[10px] mb-[14px] text-[2.6rem]">
           {notice.iconSrc ? (

@@ -30,7 +30,7 @@ function Countdown({ to, now }) {
       {parts.map(([value, label]) => (
         <div
           key={label}
-          className="min-w-[72px] rounded-[16px] bg-white px-4 py-3 text-center shadow-[0_8px_20px_-10px_rgba(0,122,61,0.35)]"
+          className="min-w-[72px] rounded-[16px] bg-white px-4 py-3 text-center shadow-[0_8px_20px_-10px_rgba(0,191,99,0.35)]"
         >
           <p className="text-[28px] leading-none font-bold text-brand">
             {String(value).padStart(2, "0")}
@@ -44,41 +44,13 @@ function Countdown({ to, now }) {
   );
 }
 
-function NoCurrentEvent() {
-  return (
-    <Reveal className="mx-auto flex max-w-[560px] flex-col items-center px-6 text-center">
-      <div className="relative mb-6 flex h-28 w-28 items-center justify-center rounded-full bg-white shadow-[0_20px_40px_-16px_rgba(0,122,61,0.45)]">
-        <span className="absolute inset-0 animate-pulse-ring rounded-full motion-reduce:animate-none" />
-        <span className="text-[52px] leading-none animate-float-slow motion-reduce:animate-none">
-          🌱
-        </span>
-      </div>
-      <h2 className="text-[clamp(26px,7vw,36px)] leading-[1.15] font-normal text-ink">
-        No current event
-      </h2>
-      <p className="mt-3 text-[16px] leading-[1.7] text-muted md:text-[18px]">
-        Our next planting day is still taking root. Catch up on what we&apos;ve
-        done in{" "}
-        <a href="#events" className="font-bold text-brand no-underline">
-          Recent Events
-        </a>{" "}
-        and follow us so you&apos;re first to know when registration opens.
-      </p>
-      <a
-        href="#contact"
-        className="mt-6 inline-block rounded-full bg-brand px-7 py-3 font-display text-[14px] font-bold tracking-[1.5px] text-white uppercase no-underline [transition:background_0.2s_ease,transform_0.15s_ease] hover:bg-brand-hover hover:[transform:translateY(-1px)]"
-      >
-        Follow Panda
-      </a>
-    </Reveal>
-  );
-}
-
 export default function UpcomingEvents() {
   const now = useNow();
   const until = closesAt(UPCOMING_EVENT);
   const isOpen = until !== null && now < until;
-  const startsAt = UPCOMING_EVENT && new Date(UPCOMING_EVENT.startsAt).getTime();
+  // Nothing to register for: the section stays hidden.
+  if (!isOpen) return null;
+  const startsAt = new Date(UPCOMING_EVENT.startsAt).getTime();
 
   return (
     <section
@@ -97,40 +69,36 @@ export default function UpcomingEvents() {
         </h1>
       </Reveal>
 
-      {isOpen ? (
-        <div className="relative">
-          <div className="mb-8 px-5 text-center">
-            <p className="mb-4 text-[18px] text-ink-soft">
-              {UPCOMING_EVENT.title} ·{" "}
-              {new Date(startsAt).toLocaleDateString(undefined, {
-                weekday: "short",
-                day: "numeric",
-                month: "long",
-              })}
+      <div className="relative">
+        <div className="mb-8 px-5 text-center">
+          <p className="mb-4 text-[18px] text-ink-soft">
+            {UPCOMING_EVENT.title} ·{" "}
+            {new Date(startsAt).toLocaleDateString(undefined, {
+              weekday: "short",
+              day: "numeric",
+              month: "long",
+            })}
+          </p>
+          {now < startsAt ? (
+            <Countdown to={startsAt} now={now} />
+          ) : (
+            <p className="font-sans text-[13px] font-bold tracking-[1.5px] text-brand uppercase">
+              Happening now · registration still open
             </p>
-            {now < startsAt ? (
-              <Countdown to={startsAt} now={now} />
-            ) : (
-              <p className="font-sans text-[13px] font-bold tracking-[1.5px] text-brand uppercase">
-                Happening now · registration still open
-              </p>
-            )}
-          </div>
-          <iframe
-            src={UPCOMING_EVENT.formUrl}
-            title="Panda event registration form"
-            frameBorder="0"
-            marginHeight="0"
-            marginWidth="0"
-            scrolling="no"
-            className="block h-[2190px] w-full md:h-[1970px]"
-          >
-            Loading…
-          </iframe>
+          )}
         </div>
-      ) : (
-        <NoCurrentEvent />
-      )}
+        <iframe
+          src={UPCOMING_EVENT.formUrl}
+          title="Panda event registration form"
+          frameBorder="0"
+          marginHeight="0"
+          marginWidth="0"
+          scrolling="no"
+          className="block h-[2190px] w-full md:h-[1970px]"
+        >
+          Loading…
+        </iframe>
+      </div>
     </section>
   );
 }

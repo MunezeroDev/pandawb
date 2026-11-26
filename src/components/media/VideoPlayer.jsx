@@ -145,7 +145,7 @@ export default function VideoPlayer({ src, poster }) {
             style={{ width: `${bufferedPct}%` }}
           />
           <div
-            className="absolute inset-0 rounded-[2px] bg-[linear-gradient(90deg,#00bf63,#00e676)] shadow-[0_0_8px_rgba(0,191,99,0.6)]"
+            className="absolute inset-0 rounded-[2px] bg-brand shadow-[0_0_8px_rgba(0,191,99,0.6)]"
             style={{ width: `${playedPct}%` }}
           />
           <div

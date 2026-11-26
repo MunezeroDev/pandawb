@@ -74,9 +74,9 @@ export const TOTAL_PARTNERS = [
 /** Gradient colours for placeholder gallery tiles. */
 export const TILE_TINTS = [
   "#00bf63",
-  "#2fd085",
-  "#6ddba0",
-  "#46cd6e",
-  "#1fa968",
-  "#8be3b4",
+  "rgba(0,191,99,0.85)",
+  "rgba(0,191,99,0.6)",
+  "rgba(0,191,99,0.75)",
+  "rgba(0,191,99,0.95)",
+  "rgba(0,191,99,0.5)",
 ];

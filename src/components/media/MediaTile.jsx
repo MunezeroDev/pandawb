@@ -5,15 +5,15 @@ const tileGradient = (index) =>
     TILE_TINTS[(index + 2) % TILE_TINTS.length]
   })`;
 
-/** One square in the gallery: photo, video preview, or a "coming soon" placeholder. */
-export default function MediaTile({ item, index, onClick }) {
+/** One gallery tile (square unless `className` sets another shape): photo, video preview, or a "coming soon" placeholder. */
+export default function MediaTile({ item, index, onClick, className = "aspect-square" }) {
   const isVideo = item.type === "video";
 
   return (
     <button
       onClick={onClick}
       aria-label={isVideo ? "Play video" : "Open photo"}
-      className="relative block aspect-square w-full cursor-pointer overflow-hidden rounded-[14px] border-none p-0"
+      className={`relative block w-full cursor-pointer overflow-hidden rounded-[14px] border-none p-0 ${className}`}
       style={{ background: isVideo && !item.src ? "#0a0f1a" : tileGradient(index) }}
     >
       {item.src && !isVideo && (

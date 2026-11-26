@@ -12,7 +12,7 @@ export default function EventTimeline({ events, selectedTab, onSelect }) {
       {/* Rail */}
       <span
         aria-hidden="true"
-        className="absolute top-2 bottom-2 left-[11px] w-[2px] bg-[linear-gradient(to_bottom,#00bf63,#c8f0dc_85%,transparent)] md:left-1/2 md:-translate-x-1/2"
+        className="absolute top-2 bottom-2 left-[11px] w-[2px] bg-[linear-gradient(to_bottom,#00bf63,rgba(0,191,99,0.2)_85%,transparent)] md:left-1/2 md:-translate-x-1/2"
       />
 
       {events.map((event, i) => {

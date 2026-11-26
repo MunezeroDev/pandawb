@@ -21,7 +21,7 @@ export default function EventCard({ event, selected, latest, onSelect }) {
       <span
         className={clsx(
           "absolute top-0 left-0 h-full w-[5px] [transition:background_0.2s_ease]",
-          selected ? "bg-brand" : "bg-mint-200 group-hover:bg-brand-soft",
+          selected ? "bg-brand" : "bg-mint-200 group-hover:bg-brand/60",
         )}
       />
 
@@ -80,7 +80,7 @@ export default function EventCard({ event, selected, latest, onSelect }) {
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-mint-200">
               <div
-                className="h-full rounded-full bg-[linear-gradient(90deg,#00bf63,#6ddba0)]"
+                className="h-full rounded-full bg-brand"
                 style={{ width: `${trackedPct}%` }}
               />
             </div>

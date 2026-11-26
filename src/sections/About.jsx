@@ -5,7 +5,7 @@ const inlineLinkClass = "font-medium text-brand no-underline";
 
 function VisionButton() {
   return (
-    <button className="cursor-pointer rounded-[6px] border-none bg-brand px-10 py-[14px] font-display text-[13px] font-bold tracking-[2.5px] text-white uppercase [transition:background_0.2s_ease,transform_0.15s_ease] hover:bg-brand-hover hover:[transform:translateY(-1px)]">
+    <button className="cursor-pointer rounded-[6px] border-none bg-brand px-10 py-[14px] font-display text-[13px] font-bold tracking-[2.5px] text-white uppercase [transition:background_0.2s_ease,transform_0.15s_ease] hover:brightness-110 hover:[transform:translateY(-1px)]">
       VISION
     </button>
   );

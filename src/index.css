@@ -24,21 +24,23 @@
   --font-sans: sans-serif;
   --font-mono: monospace;
 
-  /* Brand greens */
+  /* One brand green (#00BF63); every other green is a tint or shade of it. */
   --color-brand: #00bf63;
-  --color-brand-hover: #46cd6e;
-  --color-brand-bright: #00d46e;
-  --color-brand-pressed: #00a854;
-  --color-brand-shadow: #007a3d;
-  --color-brand-deep: #1fa968;
-  --color-brand-soft: #6ddba0;
-  --color-mint: #7ad3aa;
-  --color-mint-50: #f0faf5;
-  --color-mint-100: #f4fbf7;
-  --color-mint-200: #d3ecdf;
-  --color-mint-300: #c8f0dc;
-  --color-mint-400: #b5e3cb;
-  --color-form-bg: #e1f6eb;
+  --color-brand-hover: #00bf63;
+  --color-brand-bright: #00bf63;
+  --color-brand-pressed: #00bf63;
+  --color-brand-ink: #00bf63;
+  --color-brand-deep: #00bf63;
+  --color-brand-soft: #00bf63;
+  /* 3D depth under raised buttons: a darker shade of the brand green. */
+  --color-brand-shadow: color-mix(in srgb, #00bf63, black 30%);
+  --color-mint: color-mix(in srgb, #00bf63 55%, white);
+  --color-mint-50: color-mix(in srgb, #00bf63 6%, white);
+  --color-mint-100: color-mix(in srgb, #00bf63 4%, white);
+  --color-mint-200: color-mix(in srgb, #00bf63 20%, white);
+  --color-mint-300: color-mix(in srgb, #00bf63 22%, white);
+  --color-mint-400: color-mix(in srgb, #00bf63 30%, white);
+  --color-form-bg: color-mix(in srgb, #00bf63 12%, white);
 
   /* Neutrals */
   --color-ink: #1a1a1a;
@@ -57,9 +59,9 @@
   --color-video-bg: #0a0f1a;
 
   /* Notice popup text */
-  --color-notice-title: #0f2d1c;
-  --color-notice-body: #3d6b4f;
-  --color-notice-list: #1a3c2a;
+  --color-notice-title: color-mix(in srgb, #00bf63, black 80%);
+  --color-notice-body: color-mix(in srgb, #00bf63, black 55%);
+  --color-notice-list: color-mix(in srgb, #00bf63, black 75%);
 
   /* Download button / notice animations */
   --animate-bounce-icon: bounce-icon 1.6s ease-in-out infinite;
@@ -71,8 +73,39 @@
   /* Scroll reveal, event timeline, feature showcase */
   --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-float-slow: float-slow 6s ease-in-out infinite;
+  --animate-float-card: float-card 5s ease-in-out infinite;
   --animate-pulse-ring: pulse-ring 2s ease-out infinite;
   --animate-showcase-progress: showcase-progress linear forwards;
+
+  /* Header App button: a fingertip tapping the phone screen */
+  --animate-tap-dot: tap-dot 2s ease-in-out infinite;
+  --animate-tap-ring: tap-ring 2s ease-out infinite;
+
+  @keyframes tap-dot {
+    0%,
+    40%,
+    100% {
+      transform: scale(1);
+    }
+    15% {
+      transform: scale(0.55);
+    }
+  }
+  @keyframes tap-ring {
+    0%,
+    12% {
+      transform: scale(0.5);
+      opacity: 0;
+    }
+    18% {
+      opacity: 0.9;
+    }
+    55%,
+    100% {
+      transform: scale(2.2);
+      opacity: 0;
+    }
+  }
 
   @keyframes fade-up {
     from {
@@ -82,6 +115,15 @@
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+  @keyframes float-card {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
     }
   }
   @keyframes float-slow {

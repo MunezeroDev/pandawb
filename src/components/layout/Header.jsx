@@ -4,6 +4,7 @@ import useIsMobile from "../../hooks/useIsMobile";
 import useScrollPast from "../../hooks/useScrollPast";
 import useActiveSection from "../../hooks/useActiveSection";
 import { NAV_ITEMS } from "../../data/navigation";
+import AppNavButton from "../ui/AppNavButton";
 
 const NAV_IDS = NAV_ITEMS.map((item) => item.id);
 
@@ -160,7 +161,7 @@ function DesktopNav() {
   );
 }
 
-/** Sticky site header: logo + wordmark on the left, navigation on the right. */
+/** Sticky site header: logo + wordmark on the left, navigation + App button on the right. */
 export default function Header() {
   const isMobile = useIsMobile();
   const scrolled = useScrollPast(0.02);
@@ -174,7 +175,17 @@ export default function Header() {
     >
       <div className="flex h-[3.75rem] items-center justify-between px-6 md:h-[4.5rem] md:px-[3.25rem]">
         <Brand />
-        {isMobile ? <MobileMenu /> : <DesktopNav />}
+        {isMobile ? (
+          <div className="flex items-center gap-3">
+            <AppNavButton compact />
+            <MobileMenu />
+          </div>
+        ) : (
+          <div className="flex items-center">
+            <DesktopNav />
+            <AppNavButton className="ml-8 lg:ml-12 tablet:ml-6" />
+          </div>
+        )}
       </div>
     </header>
   );
