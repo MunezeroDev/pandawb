@@ -32,11 +32,18 @@ export default function Footer() {
       id="contact"
       className="border-t border-divider bg-white px-6 pt-10 pb-6 font-body md:px-[3.25rem] md:pt-14 md:pb-7"
     >
+      {/*
+        Phones: Contact → Follow Us → Company | Navigation side by side.
+        md+: the original row (the wrapper is `contents`, so the two link
+        columns keep order 0 and come before Contact / Follow Us).
+      */}
       <div className="mb-12 flex flex-col justify-between gap-9 md:flex-row md:gap-0">
-        <LinkColumn title="Company" links={COMPANY_LINKS} />
-        <LinkColumn title="Navigation" links={NAVIGATION_LINKS} />
+        <div className="order-3 grid grid-cols-2 gap-6 md:contents">
+          <LinkColumn title="Company" links={COMPANY_LINKS} />
+          <LinkColumn title="Navigation" links={NAVIGATION_LINKS} />
+        </div>
 
-        <div>
+        <div className="order-1 md:order-3">
           <h4 className="mb-4 font-sans text-[14px] font-bold uppercase tracking-[1px] text-ink">
             Contact
           </h4>
@@ -50,7 +57,7 @@ export default function Footer() {
           ))}
         </div>
 
-        <div>
+        <div className="order-2 md:order-4">
           <h4 className={headingClass}>Follow Us</h4>
           <div className="flex flex-wrap gap-3">
             {SOCIALS.map(({ label, title }) => (

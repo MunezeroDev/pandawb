@@ -121,7 +121,7 @@ function DesktopNav() {
 
   return (
     <nav
-      className="relative flex items-center gap-5 lg:gap-7"
+      className="relative flex items-center gap-5 lg:gap-7 tablet:gap-[14px]"
       onMouseLeave={() => setHoverId(null)}
     >
       {NAV_ITEMS.map(({ label, id }) => (

@@ -1,33 +1,8 @@
-import clsx from "clsx";
-
-/**
- * Mobile: compact card with the full screenshot and title only.
- * Desktop: cropped image, title + description, lift-on-hover.
- * `mobileLabelClass` sets the padding of the green label on mobile.
- */
-export default function FeatureCard({ feature, isMobile, mobileLabelClass }) {
-  if (isMobile) {
-    return (
-      <div className="flex w-[min(85%,340px)] flex-col overflow-hidden rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.10)]">
-        <div className="aspect-[4/5] shrink-0 overflow-hidden bg-navy">
-          <img
-            src={feature.image}
-            alt={feature.title}
-            className="block h-full w-full object-contain"
-          />
-        </div>
-        <div className={clsx("bg-brand", mobileLabelClass)}>
-          <h3 className="mb-2 text-center font-display text-[17px] leading-[1.2] font-bold text-white">
-            {feature.title}
-          </h3>
-        </div>
-      </div>
-    );
-  }
-
+/** Feature card for tablet/desktop: cropped image, title + description, lift-on-hover. */
+export default function FeatureCard({ feature }) {
   return (
-    <div className="flex min-w-0 flex-[1_1_0] cursor-pointer flex-col overflow-hidden rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.10)] [transform:translateY(0)_scale(1)] [transition:transform_0.32s_cubic-bezier(0.34,1.56,0.64,1),box-shadow_0.32s_ease] hover:shadow-[0_28px_60px_rgba(0,191,99,0.22),0_8px_24px_rgba(0,0,0,0.18)] hover:[transform:translateY(-10px)_scale(1.025)]">
-      <div className="flex h-[300px] items-center justify-center bg-placeholder font-sans text-[13px] tracking-[0.5px] text-[#999]">
+    <div className="flex h-full min-w-0 flex-[1_1_0] cursor-pointer flex-col overflow-hidden rounded-[20px] shadow-[0_4px_20px_rgba(0,0,0,0.10)] [transform:translateY(0)_scale(1)] [transition:transform_0.32s_cubic-bezier(0.34,1.56,0.64,1),box-shadow_0.32s_ease] hover:shadow-[0_28px_60px_rgba(0,191,99,0.22),0_8px_24px_rgba(0,0,0,0.18)] hover:[transform:translateY(-10px)_scale(1.025)] tablet:hover:[transform:translateY(-6px)]">
+      <div className="flex h-[300px] items-center justify-center bg-placeholder font-sans text-[13px] tracking-[0.5px] text-[#999] tablet:h-[260px]">
         <img
           src={feature.image}
           alt={feature.title}

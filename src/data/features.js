@@ -60,3 +60,10 @@ export const MORE_FEATURES = [
     image: impactToken,
   },
 ];
+
+/** Phone showcase: every feature in one loop, Memorable Experience first. */
+export const ALL_FEATURES = (() => {
+  const all = [...CORE_FEATURES, ...MORE_FEATURES];
+  const first = all.findIndex((f) => f.title === "Memorable Experience");
+  return [all[first], ...all.filter((_, i) => i !== first)];
+})();

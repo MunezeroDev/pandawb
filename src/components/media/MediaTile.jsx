@@ -1,4 +1,4 @@
-import { TILE_TINTS } from "../../data/goals";
+import { TILE_TINTS } from "../../data/events";
 
 const tileGradient = (index) =>
   `linear-gradient(135deg, ${TILE_TINTS[index % TILE_TINTS.length]}, ${

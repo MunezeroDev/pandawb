@@ -10,6 +10,9 @@
 /* Plain :hover everywhere (also on touch), matching the original behaviour. */
 @custom-variant hover (&:hover);
 
+/* Tablets only: 768×1024 up to iPad Pro 13" (1032px). Desktop starts at 1040. */
+@custom-variant tablet (@media (min-width: 768px) and (max-width: 1039px));
+
 @theme {
   /* Spacing scale in px (the original design used fixed px, not rem). */
   --spacing: 4px;
@@ -65,6 +68,47 @@
   --animate-popup-in: popup-slide-in 0.32s cubic-bezier(0.34, 1.56, 0.64, 1)
     forwards;
 
+  /* Scroll reveal, event timeline, feature showcase */
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-float-slow: float-slow 6s ease-in-out infinite;
+  --animate-pulse-ring: pulse-ring 2s ease-out infinite;
+  --animate-showcase-progress: showcase-progress linear forwards;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes float-slow {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-10px) rotate(4deg);
+    }
+  }
+  @keyframes pulse-ring {
+    0% {
+      box-shadow: 0 0 0 0 rgba(0, 191, 99, 0.55);
+    }
+    100% {
+      box-shadow: 0 0 0 14px rgba(0, 191, 99, 0);
+    }
+  }
+  @keyframes showcase-progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
   @keyframes bounce-icon {
     0%,
     100% {

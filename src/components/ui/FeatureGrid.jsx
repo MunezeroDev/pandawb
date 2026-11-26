@@ -1,19 +1,17 @@
-import useIsMobile from "../../hooks/useIsMobile";
+import { useIsTablet } from "../../hooks/useIsMobile";
 import FeatureCard from "./FeatureCard";
+import FeatureCarousel from "./FeatureCarousel";
 
-/** Column of cards on mobile, equal-width row on desktop. */
-export default function FeatureGrid({ features, mobileLabelClass }) {
-  const isMobile = useIsMobile();
+/** Tablets: 3-up carousel. Desktop: equal-width row. (Phones use FeatureShowcase.) */
+export default function FeatureGrid({ features }) {
+  const isTablet = useIsTablet();
+
+  if (isTablet) return <FeatureCarousel features={features} />;
 
   return (
-    <div className="flex flex-col items-center gap-5 md:flex-row md:items-stretch md:gap-7">
+    <div className="flex flex-row items-stretch gap-7">
       {features.map((feature) => (
-        <FeatureCard
-          key={feature.title}
-          feature={feature}
-          isMobile={isMobile}
-          mobileLabelClass={mobileLabelClass}
-        />
+        <FeatureCard key={feature.title} feature={feature} />
       ))}
     </div>
   );

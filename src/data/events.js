@@ -1,14 +1,14 @@
 import { emptySlots } from "../utils/dropbox";
 
 /*
- * Planting drives shown in the Goal Report.
+ * Planting events shown in Recent Events.
  *
  * Adding media: paste each Dropbox share link into `videos` / `images`
  * (e.g. "https://www.dropbox.com/...?dl=0"), replacing a `null` slot.
  * Links are converted to direct URLs automatically; any slot still null
  * renders a "coming soon" tile.
  */
-export const GOALS = [
+export const EVENTS = [
   {
     n: 1,
     when: "2025",
@@ -63,9 +63,13 @@ export const GOALS = [
   },
 ];
 
-export const GOALS_NEWEST_FIRST = [...GOALS].reverse();
-export const TOTAL_PLANTED = GOALS.reduce((sum, g) => sum + g.planted, 0);
-export const TOTAL_TRACKED = GOALS.reduce((sum, g) => sum + g.tracked, 0);
+export const EVENTS_NEWEST_FIRST = [...EVENTS].reverse();
+export const TOTAL_PLANTED = EVENTS.reduce((sum, e) => sum + e.planted, 0);
+export const TOTAL_TRACKED = EVENTS.reduce((sum, e) => sum + e.tracked, 0);
+/** Distinct partners across all events ("+6 student clubs" counts as 6). */
+export const TOTAL_PARTNERS = [
+  ...new Set(EVENTS.flatMap((e) => e.partners)),
+].reduce((sum, p) => sum + (Number(p.match(/^\+(\d+)/)?.[1]) || 1), 0);
 
 /** Gradient colours for placeholder gallery tiles. */
 export const TILE_TINTS = [

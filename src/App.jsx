@@ -4,15 +4,18 @@ import Features from "./sections/Features";
 import MoreFeatures from "./sections/MoreFeatures";
 import HowItWorks from "./sections/HowItWorks";
 import InAction from "./sections/InAction";
-import GoalReport from "./sections/GoalReport";
-import RegistrationForm from "./sections/RegistrationForm";
+import HowItWorksInAction from "./sections/HowItWorksInAction";
+import RecentEvents from "./sections/RecentEvents";
+import UpcomingEvents from "./sections/UpcomingEvents";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import ScrollToTopButton from "./components/ui/ScrollToTopButton";
 import useHashScroll from "./hooks/useHashScroll";
+import { useIsTablet } from "./hooks/useIsMobile";
 
 export default function App() {
   useHashScroll();
+  const isTablet = useIsTablet();
 
   return (
     <div>
@@ -21,10 +24,16 @@ export default function App() {
       <About />
       <Features />
       <MoreFeatures />
-      <HowItWorks />
-      <InAction />
-      <GoalReport />
-      <RegistrationForm />
+      {isTablet ? (
+        <HowItWorksInAction />
+      ) : (
+        <>
+          <HowItWorks />
+          <InAction />
+        </>
+      )}
+      <RecentEvents />
+      <UpcomingEvents />
       <Footer />
       <ScrollToTopButton />
     </div>

@@ -5,5 +5,6 @@ export const NAV_ITEMS = [
   { label: "Features", id: "features" },
   { label: "Using Panda", id: "usingPanda" },
   { label: "In Action", id: "inAction" },
-  { label: "Form", id: "form" },
+  { label: "Events", id: "events" },
+  { label: "Upcoming", id: "upcoming" },
 ];
