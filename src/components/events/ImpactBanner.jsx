@@ -23,15 +23,16 @@ function StatSticker({ icon, value, label, tilt }) {
 }
 
 /** All-time totals across every event, as a row of playful sticker pills. */
-export default function ImpactBanner({ tracked, events, partners }) {
+export default function ImpactBanner({ planted, tracked, events, partners }) {
   return (
     <section
       aria-label="Totals across all Panda events"
       className="flex flex-wrap items-center justify-center gap-3 md:gap-5"
     >
-      <StatSticker icon="🌳" value={tracked} label="trees tracked" tilt="-rotate-2" />
-      <StatSticker icon="📍" value={events} label="events" tilt="rotate-1" />
-      <StatSticker icon="🤝" value={partners} label="partners" tilt="-rotate-1" />
+      <StatSticker icon="🌱" value={planted} label="trees planted" tilt="-rotate-2" />
+      <StatSticker icon="🌳" value={tracked} label="trees tracked" tilt="rotate-1" />
+      <StatSticker icon="📍" value={events} label="events" tilt="-rotate-1" />
+      <StatSticker icon="🤝" value={partners} label="partners" tilt="rotate-2" />
     </section>
   );
 }

@@ -10,6 +10,7 @@ import {
   EVENTS_NEWEST_FIRST,
   FEATURES_GALLERY,
   TOTAL_PARTNERS,
+  TOTAL_PLANTED,
   TOTAL_TRACKED,
 } from "../data/events";
 
@@ -36,16 +37,14 @@ export default function RecentEvents() {
       className="relative bg-white px-5 py-12 font-body md:mx-[3.25rem] md:px-0 md:pt-10 md:pb-16"
     >
       <Reveal as="header" className="mb-8 text-center md:mb-12">
-        <p className="mb-3 font-sans text-[12px] font-bold tracking-[3px] text-brand uppercase">
-          Our impact, event by event
-        </p>
         <h1 className="text-[clamp(40px,11vw,60px)] leading-[1.02] font-normal tracking-[-1.5px] text-ink md:text-[clamp(44px,6vw,76px)]">
-          Recent <span className="font-bold text-brand italic">Events</span>
+          Our <span className="font-bold text-brand italic">Impact</span>
         </h1>
       </Reveal>
 
       <Reveal>
         <ImpactBanner
+          planted={TOTAL_PLANTED}
           tracked={TOTAL_TRACKED}
           events={EVENTS.length}
           partners={TOTAL_PARTNERS}

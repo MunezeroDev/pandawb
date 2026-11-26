@@ -4,5 +4,5 @@ export const NAV_ITEMS = [
   { label: "About", id: "about" },
   { label: "Features", id: "features" },
   { label: "In Action", id: "inAction" },
-  { label: "Events", id: "events" },
+  { label: "Our Impact", id: "events" },
 ];
