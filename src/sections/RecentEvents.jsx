@@ -8,9 +8,13 @@ import useIsMobile from "../hooks/useIsMobile";
 import {
   EVENTS,
   EVENTS_NEWEST_FIRST,
+  FEATURES_GALLERY,
   TOTAL_PARTNERS,
   TOTAL_TRACKED,
 } from "../data/events";
+
+/** Gallery tabs: every event (newest first), then the app's features. */
+const GALLERY_TABS = [...EVENTS_NEWEST_FIRST, FEATURES_GALLERY];
 
 export default function RecentEvents() {
   const isMobile = useIsMobile();
@@ -67,7 +71,7 @@ export default function RecentEvents() {
         </Reveal>
 
         <EventGalleryCarousel
-          events={EVENTS_NEWEST_FIRST}
+          events={GALLERY_TABS}
           requestedTab={selectedTab}
           isMobile={isMobile}
           onOpen={(items, i) => setLightbox({ items, i })}

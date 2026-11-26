@@ -73,6 +73,7 @@ export default function Lightbox({ state, onClose, onMove }) {
           <video
             key={item.src}
             src={item.src}
+            poster={item.poster ?? undefined}
             controls
             autoPlay
             playsInline

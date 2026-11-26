@@ -1,61 +1,64 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import clsx from "clsx";
 import MediaTile from "./MediaTile";
+import PhoneWall from "./PhoneWall";
 import useInView from "../../hooks/useInView";
 import { collectMedia } from "../../utils/media";
+import { packSlide } from "../../utils/packSlide";
 import { arrowClass } from "../ui/carouselStyles";
 
 const SLIDE_MS = 5000;
 const SETTLE_MS = 120;
 
-/**
- * Repeating tile heights (height ÷ width of the old aspect shapes). Each slide
- * is a fixed height, and tiles share their column's height in these
- * proportions, so columns stagger inside while every column starts and ends level.
- */
-const WEIGHTS = [4 / 3, 1, 5 / 4, 5 / 3, 3 / 4, 3 / 2, 1];
+/** Collage packing per layout: items per slide, column counts to try, preferred height ÷ width. */
+const COLLAGE = {
+  desktop: { perSlide: 7, columns: [3, 4, 5], target: 0.55 },
+  mobile: { perSlide: 4, columns: [2], target: 1.15 },
+};
 
-/** Deals a slide's items round-robin into `count` columns, keeping each item's overall index. */
-function toColumns(items, offset, count) {
-  const cols = Array.from({ length: count }, () => []);
-  items.forEach((item, i) => cols[i % count].push({ item, n: offset + i }));
-  return cols.filter((c) => c.length);
+/** Splits `n` items into the fewest chunks of at most `max`, sized as evenly as possible. */
+function chunkSizes(n, max) {
+  const count = Math.ceil(n / max);
+  return Array.from({ length: count }, (_, i) => Math.floor(n / count) + (i < n % count ? 1 : 0));
 }
 
 /** "October 2026 · Mazingira Day" → "October 2026" */
 const tabLabel = (event) => event.when.split(" · ")[0];
 
 /** Splits every event's media into collage-sized slides, in event order. */
-function buildSlides(events, perSlide) {
+function buildSlides(events, isMobile) {
   return events.flatMap((event) => {
     const media = collectMedia([event]);
-    const slides = [];
-    for (let offset = 0; offset < media.length; offset += perSlide) {
-      slides.push({
-        tab: event.tab,
-        media,
-        offset,
-        items: media.slice(offset, offset + perSlide),
-      });
-    }
-    return slides;
+    const layout = event.layout ?? "collage";
+    const collage = isMobile ? COLLAGE.mobile : COLLAGE.desktop;
+    const perSlide = layout === "phones" ? (isMobile ? 2 : 4) : collage.perSlide;
+    let offset = 0;
+    return chunkSizes(media.length, perSlide).map((size) => {
+      const items = media.slice(offset, offset + size);
+      const slide = { tab: event.tab, layout, media, offset, items };
+      if (layout === "collage") slide.pack = packSlide(items, collage.columns, collage.target);
+      offset += size;
+      return slide;
+    });
   });
 }
 
 /**
  * Event gallery: one tab per event, newest first, over a carousel that runs
  * through every event's slides on its own. Each slide is a Pinterest-style
- * collage of that event's photos and videos. The active tab follows the slide
+ * collage of that event's photos and videos, packed so every tile keeps its
+ * photo's exact shape (see packSlide); the track eases to each slide's height. The active tab follows the slide
  * in view, clicking a tab jumps to that event, and `requestedTab` (for example,
  * from the timeline) does the same. Playback pauses on hover, on touch and
  * while the gallery is off-screen.
  */
 export default function EventGalleryCarousel({ events, requestedTab, isMobile, onOpen }) {
-  const slides = useMemo(
-    () => buildSlides(events, isMobile ? 6 : 7),
-    [events, isMobile],
-  );
-  const firstSlideOf = (tab) => Math.max(0, slides.findIndex((s) => s.tab === tab));
+  const slides = useMemo(() => buildSlides(events, isMobile), [events, isMobile]);
+  const firstSlideOf = (tab) =>
+    Math.max(
+      0,
+      slides.findIndex((s) => s.tab === tab),
+    );
 
   const trackRef = useRef(null);
   const settleTimer = useRef(null);
@@ -63,6 +66,7 @@ export default function EventGalleryCarousel({ events, requestedTab, isMobile, o
   const [viewRef, inView] = useInView({ once: false, threshold: 0.3 });
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [trackHeight, setTrackHeight] = useState(null);
 
   // Follow selections made outside the gallery (the timeline cards).
   const [lastRequested, setLastRequested] = useState(requestedTab);
@@ -72,9 +76,7 @@ export default function EventGalleryCarousel({ events, requestedTab, isMobile, o
   }
 
   const current = slides[Math.min(index, slides.length - 1)];
-  const eventSlides = slides
-    .map((s, i) => ({ ...s, i }))
-    .filter((s) => s.tab === current?.tab);
+  const eventSlides = slides.map((s, i) => ({ ...s, i })).filter((s) => s.tab === current?.tab);
 
   useEffect(() => {
     indexRef.current = index;
@@ -96,6 +98,17 @@ export default function EventGalleryCarousel({ events, requestedTab, isMobile, o
       track.scrollTo({ left: slide.offsetLeft, behavior: "smooth" });
     }
   }, [index]);
+
+  // Size the track to the current slide (slides differ in height), re-measuring on resize.
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const measure = () => setTrackHeight(track.children[index]?.offsetHeight ?? null);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(track);
+    return () => observer.disconnect();
+  }, [index, slides]);
 
   // After a manual swipe settles, adopt the slide in view.
   const onScroll = () => {
@@ -150,39 +163,61 @@ export default function EventGalleryCarousel({ events, requestedTab, isMobile, o
         onTouchStart={() => setPaused(true)}
         onTouchEnd={() => setPaused(false)}
         onTouchCancel={() => setPaused(false)}
-        className="mt-6 flex snap-x snap-mandatory items-start overflow-x-auto [scrollbar-width:none] md:mt-8 [&::-webkit-scrollbar]:hidden"
+        style={trackHeight ? { height: trackHeight } : undefined}
+        className="mt-6 flex snap-x snap-mandatory items-start overflow-x-auto overflow-y-hidden [scrollbar-width:none] [transition:height_0.45s_cubic-bezier(0.22,1,0.36,1)] md:mt-8 [&::-webkit-scrollbar]:hidden"
       >
         {slides.map((slide, s) => (
           <div
             key={`${slide.tab}-${slide.offset}`}
             inert={s !== index}
-            className="flex h-[clamp(420px,60vw,640px)] w-full shrink-0 snap-start gap-[10px] md:gap-4"
+            className={clsx(
+              "flex w-full shrink-0 snap-start gap-[10px] md:gap-4",
+              slide.layout === "phones" && "h-[clamp(420px,60vw,640px)]",
+            )}
+            style={slide.pack ? { aspectRatio: 1 / slide.pack.hOverW } : undefined}
           >
-            {toColumns(slide.items, slide.offset, isMobile ? 2 : 3).map((col, c) => (
-              <div key={c} className="flex min-w-0 flex-1 flex-col gap-[10px] md:gap-4">
-                {col.map(({ item, n }) => (
-                  <div
-                    key={n}
-                    className="min-h-0 basis-0"
-                    style={{ flexGrow: WEIGHTS[n % WEIGHTS.length] }}
-                  >
-                    <MediaTile
-                      item={item}
-                      index={n}
-                      className="h-full"
-                      onClick={() => onOpen(slide.media, n)}
-                    />
-                  </div>
-                ))}
-              </div>
-            ))}
+            {slide.layout === "phones" ? (
+              <PhoneWall
+                items={slide.items}
+                offset={slide.offset}
+                onOpen={(n) => onOpen(slide.media, n)}
+              />
+            ) : (
+              // Column width ∝ 1/S and tile height ∝ its ratio: every tile is its photo's exact shape.
+              slide.pack.columns.map((col, c) => (
+                <div
+                  key={c}
+                  className="flex min-w-0 basis-0 flex-col gap-[10px] md:gap-4"
+                  style={{ flexGrow: 1 / col.S }}
+                >
+                  {col.entries.map(({ item, i }) => {
+                    const n = slide.offset + i;
+                    return (
+                      <div key={n} className="min-h-0 basis-0" style={{ flexGrow: item.ratio ?? 1 }}>
+                        <MediaTile
+                          item={item}
+                          index={n}
+                          className="h-full"
+                          onClick={() => onOpen(slide.media, n)}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              ))
+            )}
           </div>
         ))}
       </div>
 
       {/* Controls: arrows across all events, dots within the current one */}
       <div className="mt-5 flex items-center justify-center gap-5">
-        <button type="button" aria-label="Previous slide" onClick={() => step(-1)} className={arrowClass}>
+        <button
+          type="button"
+          aria-label="Previous slide"
+          onClick={() => step(-1)}
+          className={arrowClass}
+        >
           ←
         </button>
         <div className="flex gap-2">
@@ -199,7 +234,12 @@ export default function EventGalleryCarousel({ events, requestedTab, isMobile, o
             />
           ))}
         </div>
-        <button type="button" aria-label="Next slide" onClick={() => step(1)} className={arrowClass}>
+        <button
+          type="button"
+          aria-label="Next slide"
+          onClick={() => step(1)}
+          className={arrowClass}
+        >
           →
         </button>
       </div>

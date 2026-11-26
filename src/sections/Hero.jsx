@@ -3,20 +3,26 @@ import HeroBadge from "../components/hero/HeroBadge";
 import HeroCtas from "../components/hero/HeroCtas";
 import HeroStats from "../components/hero/HeroStats";
 import HeroPhone from "../components/hero/HeroPhone";
-import wavyUnderline from "../assets/images/hero/wavy-underline.webp";
+import BrushUnderline from "../components/hero/BrushUnderline";
+import SproutVine from "../components/hero/Sprout";
 
 const SUBHEADLINE =
   "Plant with friends, watch every tree you grow, and turn each one into a memory you can share — climate action that feels like fun.";
 
-/** "Make memories." with the hand-drawn underline tucked beneath it. */
-const MakeMemories = ({ className = "" }) => (
+/**
+ * "Make memories." with a brush-stroke underline drawn in code. With `sprout`,
+ * a vine grows out of the period into the gap beside the headline. It only
+ * shows from 1200px, where that gap is wide, and steps up in size with it
+ * (about 110px of free space at 1200px, 170px at 1366px, 500px+ at 1600px),
+ * so it never reaches the phone's green circle or the floating cards.
+ */
+const MakeMemories = ({ className = "", sprout = false }) => (
   <span className={`relative block w-fit text-brand-pressed ${className}`}>
     Make memories.
-    <img
-      src={wavyUnderline}
-      alt=""
-      className="absolute top-[94%] left-[2%] h-auto w-[62%] max-w-[320px]"
-    />
+    <BrushUnderline className="absolute top-[90%] left-[1%] h-[0.26em] w-[97%] md:h-[0.22em]" />
+    {sprout && (
+      <SproutVine className="absolute top-[calc(100%-0.25em)] left-[calc(100%-0.17em)] hidden w-[1.35em] -translate-x-[2%] -translate-y-[31%] min-[1200px]:block min-[1366px]:w-[1.95em] min-[1600px]:w-[2.4em]" />
+    )}
   </span>
 );
 
@@ -53,7 +59,7 @@ function DesktopHero() {
         <HeroBadge />
         <h1 className="mt-6 mb-0 font-display text-[clamp(48px,5.6vw,80px)] leading-[1.03] font-normal text-ink">
           <span className="block">Plant trees.</span>
-          <MakeMemories />
+          <MakeMemories sprout />
         </h1>
         <p className="mt-10 mb-0 max-w-[34rem] font-display text-[clamp(18px,1.6vw,22px)] leading-[1.5] font-normal text-muted">
           {SUBHEADLINE}

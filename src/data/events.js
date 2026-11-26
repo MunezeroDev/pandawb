@@ -1,13 +1,19 @@
-import { emptySlots } from "../utils/dropbox";
+import { galleryFile, galleryImages, galleryRatio } from "./gallery";
+import { WHATS_NEW_CAPTIONS } from "./whatsNew";
 
 /*
  * Planting events shown in Recent Events.
  *
- * Adding media: paste each Dropbox share link into `videos` / `images`
- * (e.g. "https://www.dropbox.com/...?dl=0"), replacing a `null` slot.
- * Links are converted to direct URLs automatically; any slot still null
- * renders a "coming soon" tile.
+ * Photos come from src/assets/images/gallery/<folder>/ (see src/data/gallery.js).
+ * Videos: paste a Dropbox share link (e.g. "https://www.dropbox.com/...?dl=0")
+ * into a video's `src`; it is converted to a direct URL automatically. Until
+ * then the tile shows its poster and the lightbox says "coming soon".
  */
+const octoberPoster = (name) => ({
+  poster: galleryFile("2026-october", name),
+  ratio: galleryRatio("2026-october", name),
+});
+
 export const EVENTS = [
   {
     n: 1,
@@ -19,8 +25,8 @@ export const EVENTS = [
     partners: ["Whispers", "BV Nairobi West"],
     planted: 82,
     tracked: 63,
-    videos: [null], // founder video
-    images: emptySlots(20),
+    videos: [],
+    images: galleryImages("2025"),
   },
   {
     n: 2,
@@ -33,7 +39,7 @@ export const EVENTS = [
     planted: 98,
     tracked: 98,
     videos: [],
-    images: emptySlots(20),
+    images: galleryImages("2026-july"),
   },
   {
     n: 3,
@@ -45,8 +51,8 @@ export const EVENTS = [
     partners: ["WhisperChampions", "maida_cbo", "BV Nairobi Westlands"],
     planted: 87,
     tracked: 87,
-    videos: [null, null],
-    images: emptySlots(20),
+    videos: [],
+    images: galleryImages("2026-sept"),
   },
   {
     n: 4,
@@ -58,10 +64,42 @@ export const EVENTS = [
     partners: ["JEMA Club JKUAT", "UCESCO JKUAT", "+6 student clubs"],
     planted: 213,
     tracked: 118,
-    videos: [null, null],
-    images: emptySlots(20),
+    videos: [
+      { src: null, ...octoberPoster("video1_thumbnail") }, // video1.mp4
+      { src: null, ...octoberPoster("video2_thumbnail") }, // video2.mp4
+    ],
+    // People first; the three near-identical banner group photos are spread
+    // across later slides, and the app screenshots come last.
+    images: galleryImages("2026-october", [
+      "04-volunteer-holding-seedling",
+      "05-volunteer-with-seedling-smile",
+      "07-watering-new-tree",
+      "08-planting-portrait-black-tee",
+      "09-planting-portrait-blue-sweater",
+      "10-planting-portrait-green-jacket",
+      "11-planting-portrait-orange-jacket",
+      "01-mazingira-day-group-photo",
+      "06-planting-together",
+      "12-planting-portrait-blue-hoodie",
+      "13-planting-blue-visor",
+      "02-mazingira-day-group-photo-wide",
+      "14-planting-by-the-bridge",
+      "03-mazingira-day-group-photo-alt",
+    ]),
   },
 ];
+
+/** Extra gallery tab (not an event): a phone wall of the app's latest screens. */
+export const FEATURES_GALLERY = {
+  tab: "What's New!",
+  when: "What's New!",
+  layout: "phones",
+  videos: [],
+  images: galleryImages("features").map((img) => {
+    const [emoji, caption] = WHATS_NEW_CAPTIONS[img.name] ?? ["✨", ""];
+    return { ...img, emoji, caption };
+  }),
+};
 
 export const EVENTS_NEWEST_FIRST = [...EVENTS].reverse();
 export const TOTAL_PLANTED = EVENTS.reduce((sum, e) => sum + e.planted, 0);

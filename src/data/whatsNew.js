@@ -1,0 +1,23 @@
+/** Sticker captions for the "What's New!" phone wall, keyed by screenshot name. */
+export const WHATS_NEW_CAPTIONS = {
+  "01-landing": ["🌱", "Plant a tree. Show the world."],
+  "01-landing-alt-early": ["📈", "Live weekly tree count"],
+  "04-home-dashboard": ["🏡", "Your green home base"],
+  "05-upload-photos-empty": ["📸", "Snap your tree"],
+  "06-upload-photos-added": ["🖼️", "Up to 5 photos"],
+  "07-about-your-tree": ["🌳", "Name your tree"],
+  "08-add-selfies": ["🤳", "Add a planting selfie"],
+  "09-confirm-location": ["📍", "Pin it on the map"],
+  "10-confirm-location-continue": ["🗺️", "GPS-tagged trees"],
+  "11-review-and-plant": ["✅", "Review & plant"],
+  "12-share-collage": ["🎉", "Share a collage"],
+  "13-leaderboard-podium": ["🏆", "Climb the podium"],
+  "14-leaderboard-ranks-12-21": ["🔥", "Weekly leaderboard"],
+  "15-leaderboard-ranks-31-40": ["💪", "Every tree counts"],
+  "16-tree-post-photos": ["🔍", "Tree posts"],
+  "17-tree-post-details": ["💚", "Likes & tree details"],
+  "18-tree-post-sophia-sage": ["🌿", "Every tree has a name"],
+  "19-tree-story-mazingira-rain": ["🌧️", "Tell your tree's story"],
+  "20-jema-story-crowd": ["🙌", "Event stories"],
+  "21-jema-story-group-banners": ["🤝", "Plant together"],
+};

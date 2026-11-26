@@ -1,20 +1,18 @@
 import clsx from "clsx";
-import collage from "../../assets/images/features/collage.webp";
+import amaraPhoto from "../../assets/images/gallery/2026-october/13-planting-blue-visor.webp";
+import grovePhoto from "../../assets/images/gallery/2026-october/video2_thumbnail.webp";
 import { SproutIcon } from "./icons";
 
 const shell =
   "absolute z-10 flex items-center bg-white font-display shadow-[0_12px_32px_rgba(15,45,28,0.14)] animate-float-card motion-reduce:animate-none";
 
-/** A zoomed crop of the planting collage, used for the avatar and thumbnail. */
-const CollageCrop = ({ className, size, position }) => (
-  <span
+/** A small photo used for the avatar and the memory thumbnail. */
+const CardPhoto = ({ src, className }) => (
+  <img
+    src={src}
+    alt=""
     aria-hidden="true"
-    className={clsx("block shrink-0 bg-no-repeat", className)}
-    style={{
-      backgroundImage: `url(${collage})`,
-      backgroundSize: size,
-      backgroundPosition: position,
-    }}
+    className={clsx("block shrink-0 object-cover", className)}
   />
 );
 
@@ -28,11 +26,10 @@ export function ActivityCard({ compact, className }) {
         className,
       )}
     >
-      <CollageCrop
-        size="560% auto"
-        position="22% 63%"
+      <CardPhoto
+        src={amaraPhoto}
         className={clsx(
-          "rounded-full",
+          "rounded-full object-[45%_33%]",
           compact ? "size-7" : "size-10 tablet:size-8",
         )}
       />
@@ -97,11 +94,10 @@ export function MemoryCard({ compact, className }) {
         className,
       )}
     >
-      <CollageCrop
-        size="210% auto"
-        position="96% 6%"
+      <CardPhoto
+        src={grovePhoto}
         className={clsx(
-          "rounded-xl",
+          "rounded-xl object-center",
           compact ? "size-8 rounded-lg" : "size-14 tablet:size-11",
         )}
       />
