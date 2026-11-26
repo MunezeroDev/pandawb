@@ -1,11 +1,140 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/*
+ * Tailwind is loaded without Preflight on purpose: the site was designed
+ * against browser defaults plus the small reset below, and Preflight would
+ * change line-heights, fonts, list bullets and inline images.
+ */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* Plain :hover everywhere (also on touch), matching the original behaviour. */
+@custom-variant hover (&:hover);
+
+@theme {
+  /* Spacing scale in px (the original design used fixed px, not rem). */
+  --spacing: 4px;
+
+  /* Fonts */
+  --font-body: "Georgia", "Times New Roman", serif;
+  --font-display: "Georgia", serif;
+  --font-wordmark: "Norwester", "Georgia", serif;
+  --font-sans: sans-serif;
+  --font-mono: monospace;
+
+  /* Brand greens */
+  --color-brand: #00bf63;
+  --color-brand-hover: #46cd6e;
+  --color-brand-bright: #00d46e;
+  --color-brand-pressed: #00a854;
+  --color-brand-shadow: #007a3d;
+  --color-brand-deep: #1fa968;
+  --color-brand-soft: #6ddba0;
+  --color-mint: #7ad3aa;
+  --color-mint-50: #f0faf5;
+  --color-mint-100: #f4fbf7;
+  --color-mint-200: #d3ecdf;
+  --color-mint-300: #c8f0dc;
+  --color-mint-400: #b5e3cb;
+  --color-form-bg: #e1f6eb;
+
+  /* Neutrals */
+  --color-ink: #1a1a1a;
+  --color-ink-soft: #2c2c2c;
+  --color-muted: #555;
+  --color-subtle: #666;
+  --color-slate: #8e99a2;
+  --color-surface: #f9fafb;
+  --color-divider: #e8ede9;
+  --color-pill-border: #e3ece7;
+  --color-footer-text: #6b7280;
+  --color-footer-muted: #9ca3af;
+  --color-footer-border: #d1d5db;
+  --color-placeholder: #d0d0d0;
+  --color-navy: #0f172a;
+  --color-video-bg: #0a0f1a;
+
+  /* Notice popup text */
+  --color-notice-title: #0f2d1c;
+  --color-notice-body: #3d6b4f;
+  --color-notice-list: #1a3c2a;
+
+  /* Download button / notice animations */
+  --animate-bounce-icon: bounce-icon 1.6s ease-in-out infinite;
+  --animate-backdrop-in: backdrop-fade-in 0.2s ease forwards;
+  --animate-popup-in: popup-slide-in 0.32s cubic-bezier(0.34, 1.56, 0.64, 1)
+    forwards;
+
+  @keyframes bounce-icon {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(5px);
+    }
+  }
+  @keyframes backdrop-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes popup-slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
 }
 
-html,
-body {
-  overflow-x: hidden;
-  max-width: 100vw;
+/* Used by .ripple below (not a theme animation, so it lives outside @theme). */
+@keyframes ripple-out {
+  from {
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  to {
+    width: 220px;
+    height: 220px;
+    opacity: 0;
+  }
+}
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+}
+
+@layer components {
+  /* Click ripple inside the download button; restarted from JS. */
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.22);
+    width: 0;
+    height: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .ripple.is-active {
+    animation: ripple-out 0.5s ease-out forwards;
+  }
 }

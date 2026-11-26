@@ -37,3 +37,5 @@ PersonalVolt
 
 # transfer to WSL files 
 *:Zone.Identifier
+# Local refactor notes
+REFACTOR_NOTES.md

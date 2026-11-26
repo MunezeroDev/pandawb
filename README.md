@@ -1,16 +1,47 @@
-# React + Vite
+# Panda — landing page
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Single-page marketing site for the Panda tree-planting app, built with React 19, Vite and Tailwind CSS v4. Deployed to GitHub Pages at <https://munezerodev.github.io/pandawb/>.
 
-Currently, two official plugins are available:
+## Scripts
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+bun install      # install dependencies
+bun run dev      # dev server on http://localhost:5174/pandawb/
+bun run build    # production build to dist/
+bun run preview  # serve the production build
+bun run lint     # ESLint
+```
 
-## React Compiler
+Pushing to `main` builds and deploys via `.github/workflows/deploy.yml`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Project structure
 
-## Expanding the ESLint configuration
+```
+src/
+  App.jsx               page composition (section order)
+  index.css             Tailwind entry, theme tokens, base reset, keyframes
+  sections/             one file per page section (Hero, About, Features, …)
+  components/
+    layout/             Navbar, Footer
+    ui/                 reusable UI pieces (buttons, cards, tabs, counters)
+    media/              video player, gallery, lightbox
+    goal-report/        pieces used only by the Goal Report section
+  hooks/                useIsMobile, useScrollPast, useCountUp, useHashScroll
+  data/                 page content (features, goals, nav, footer, notices)
+  constants/links.js    external URLs (APK, video, Google Form)
+  utils/                small helpers (Dropbox links, device detection, …)
+  assets/images/        images grouped by section
+  assets/_unused/       assets not currently used on the page
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Editing content
+
+- **Text, features, goals, footer links:** edit the files in `src/data/`.
+- **Goal Report photos/videos:** paste Dropbox share links into the `videos` / `images` arrays in `src/data/goals.js`. Empty (`null`) slots show "coming soon" tiles.
+- **APK, video and form URLs:** `src/constants/links.js`.
+
+## Styling notes
+
+- Colours, fonts and the spacing scale are defined as Tailwind theme tokens in `src/index.css` (e.g. `bg-brand`, `text-ink`, `font-display`).
+- Tailwind's Preflight reset is intentionally **not** loaded. The design relies on browser defaults plus the small reset in `@layer base`.
+- The mobile/desktop breakpoint is Tailwind's `md` (768px). `useIsMobile()` uses the same breakpoint for the few places where the markup itself differs between mobile and desktop.

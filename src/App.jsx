@@ -1,40 +1,30 @@
-import SectionA from "./components/SectionA";
-import SectionB from "./components/SectionB";
-import SectionC from "./components/SectionC";
-import SectionD from "./components/SectionD";
-import SectionE from "./components/SectionE";
-import SectionG from "./components/SectionG";
-import Footer from "./components/XFooter";
-import ScrollToTop from "./components/ScrollToTop";
-import EmbeddedForm from "./components/EmbeddedForm";
-import GoalReport from "./components/GoalReport";
+import Hero from "./sections/Hero";
+import About from "./sections/About";
+import Features from "./sections/Features";
+import MoreFeatures from "./sections/MoreFeatures";
+import HowItWorks from "./sections/HowItWorks";
+import InAction from "./sections/InAction";
+import GoalReport from "./sections/GoalReport";
+import RegistrationForm from "./sections/RegistrationForm";
+import Footer from "./components/layout/Footer";
+import ScrollToTopButton from "./components/ui/ScrollToTopButton";
+import useHashScroll from "./hooks/useHashScroll";
 
-import { useEffect } from "react";
+export default function App() {
+  useHashScroll();
 
-function App() {
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash) {
-      setTimeout(() => {
-        const el = document.querySelector(hash);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
-      }, 100);
-    }
-  }, []);
   return (
     <div>
-      <SectionA />
-      <SectionB />
-      <SectionC />
-      <SectionD />
-      <SectionE />
-      <SectionG />
+      <Hero />
+      <About />
+      <Features />
+      <MoreFeatures />
+      <HowItWorks />
+      <InAction />
       <GoalReport />
-      <EmbeddedForm />
+      <RegistrationForm />
       <Footer />
-      <ScrollToTop />
+      <ScrollToTopButton />
     </div>
   );
 }
-
-export default App;

@@ -1,0 +1,67 @@
+import aboutUs from "../assets/images/about/about-us.webp";
+
+const inlineLinkClass = "font-medium text-brand no-underline";
+
+export default function About() {
+  return (
+    <section
+      id="about"
+      className="min-h-[80vh] overflow-hidden px-6 pt-[25px] pb-12 font-body md:ml-20 md:px-[52px] md:pt-7 md:pb-0"
+    >
+      <header className="mb-7 md:mb-10">
+        <h1 className="font-display text-[clamp(48px,12vw,80px)] leading-[1.03] font-normal tracking-[-2px] text-ink md:text-[clamp(56px,6vw,80px)]">
+          About <span className="text-brand">Panda</span>
+        </h1>
+      </header>
+
+      <div className="flex flex-col items-start gap-7 md:flex-row md:gap-[60px]">
+        <div className="w-full shrink-0 md:w-[min(46%,520px)]">
+          <img
+            src={aboutUs}
+            alt="Panders planting trees together"
+            className="block aspect-[4/3] w-full rounded-[20px] object-cover"
+          />
+        </div>
+
+        <div className="flex flex-1 flex-col gap-5 pt-0 md:gap-7 md:pt-2">
+          <p className="font-display text-[16px] leading-[1.75] text-muted md:text-[18px]">
+            Panda was founded in 2025 to tackle deforestation by redefining
+            what tree-planting means in the modern era. Panda brings together a
+            vibrant ecosystem — the{" "}
+            <a href="#" className={inlineLinkClass}>
+              Panda App
+            </a>
+            , Panda{" "}
+            <a href="#" className={inlineLinkClass}>
+              Club
+            </a>
+            , Panda{" "}
+            <a href="#" className={inlineLinkClass}>
+              Systems
+            </a>
+            , and our passionate community of{" "}
+            <a href="#" className={inlineLinkClass}>
+              Panders
+            </a>{" "}
+            — to make restoring the planet fun, social, and deeply impactful.
+          </p>
+
+          <div>
+            <button className="cursor-pointer rounded-[6px] border-none bg-brand px-10 py-[14px] font-display text-[13px] font-bold tracking-[2.5px] text-white uppercase [transition:background_0.2s_ease,transform_0.15s_ease] hover:bg-brand-hover hover:[transform:translateY(-1px)]">
+              VISION
+            </button>
+          </div>
+
+          <p className="font-display text-[16px] leading-[1.75] text-ink-soft md:text-[18px]">
+            Our vision is to transform tree-planting into a vibrant global
+            movement through a fun, gamified experience that blends artistic
+            collages, picture sharing, and the power of social media, towards a
+            future-forward token economy that reward real-world environmental
+            action and inspire millions to heal the earth and secure a greener
+            future
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
