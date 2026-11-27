@@ -52,7 +52,7 @@ function buildSlides(events, isMobile) {
  * from the timeline) does the same. Playback pauses on hover, on touch and
  * while the gallery is off-screen.
  */
-export default function EventGalleryCarousel({ events, requestedTab, isMobile, onOpen }) {
+export default function EventGalleryCarousel({ events, request, isMobile, onOpen }) {
   const slides = useMemo(() => buildSlides(events, isMobile), [events, isMobile]);
   const firstSlideOf = (tab) =>
     Math.max(
@@ -64,15 +64,21 @@ export default function EventGalleryCarousel({ events, requestedTab, isMobile, o
   const settleTimer = useRef(null);
   const indexRef = useRef(0);
   const [viewRef, inView] = useInView({ once: false, threshold: 0.3 });
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(() => (request ? firstSlideOf(request.tab) : 0));
   const [paused, setPaused] = useState(false);
   const [trackHeight, setTrackHeight] = useState(null);
 
-  // Follow selections made outside the gallery (the timeline cards).
-  const [lastRequested, setLastRequested] = useState(requestedTab);
-  if (requestedTab !== lastRequested) {
-    setLastRequested(requestedTab);
-    if (requestedTab) setIndex(firstSlideOf(requestedTab));
+  // Held on one event after arriving from a #gallery-<slug> link, until the visitor moves it.
+  const [held, setHeld] = useState(Boolean(request?.hold));
+
+  // Follow requests made outside the gallery (timeline cards, #gallery-<slug> links).
+  const [lastRequest, setLastRequest] = useState(request);
+  if (request !== lastRequest) {
+    setLastRequest(request);
+    if (request) {
+      setIndex(firstSlideOf(request.tab));
+      setHeld(Boolean(request.hold));
+    }
   }
 
   const current = slides[Math.min(index, slides.length - 1)];
@@ -82,12 +88,18 @@ export default function EventGalleryCarousel({ events, requestedTab, isMobile, o
     indexRef.current = index;
   }, [index]);
 
+  /** Visitor-driven moves release a link's hold so autoplay resumes. */
+  const go = (i) => {
+    setHeld(false);
+    setIndex(i);
+  };
+
   // Auto-advance, wrapping from the last event back to the newest.
   useEffect(() => {
-    if (!inView || paused || slides.length < 2) return;
+    if (!inView || paused || held || slides.length < 2) return;
     const id = setTimeout(() => setIndex((i) => (i + 1) % slides.length), SLIDE_MS);
     return () => clearTimeout(id);
-  }, [inView, paused, index, slides.length]);
+  }, [inView, paused, held, index, slides.length]);
 
   // Keep the track on the current slide.
   useEffect(() => {
@@ -117,12 +129,12 @@ export default function EventGalleryCarousel({ events, requestedTab, isMobile, o
       const track = trackRef.current;
       if (!track || !track.clientWidth) return;
       const nearest = Math.round(track.scrollLeft / track.clientWidth);
-      if (nearest !== indexRef.current) setIndex(nearest);
+      if (nearest !== indexRef.current) go(nearest);
     }, SETTLE_MS);
   };
   useEffect(() => () => clearTimeout(settleTimer.current), []);
 
-  const step = (d) => setIndex((i) => (i + d + slides.length) % slides.length);
+  const step = (d) => go((index + d + slides.length) % slides.length);
 
   return (
     <div ref={viewRef}>
@@ -140,7 +152,7 @@ export default function EventGalleryCarousel({ events, requestedTab, isMobile, o
               type="button"
               role="tab"
               aria-selected={active}
-              onClick={() => setIndex(firstSlideOf(event.tab))}
+              onClick={() => go(firstSlideOf(event.tab))}
               className={clsx(
                 "shrink-0 cursor-pointer rounded-full border px-5 py-[9px] font-display text-[14px] font-bold whitespace-nowrap [transition:background_0.2s_ease,color_0.2s_ease,border-color_0.2s_ease] md:text-[15px]",
                 active
@@ -226,7 +238,7 @@ export default function EventGalleryCarousel({ events, requestedTab, isMobile, o
               key={s.i}
               type="button"
               aria-label={`Go to slide ${s.i + 1}`}
-              onClick={() => setIndex(s.i)}
+              onClick={() => go(s.i)}
               className={clsx(
                 "h-2 cursor-pointer rounded-full border-0 p-0 [transition:width_0.3s_ease,background_0.3s_ease]",
                 s.i === index ? "w-7 bg-brand" : "w-2 bg-mint-200",

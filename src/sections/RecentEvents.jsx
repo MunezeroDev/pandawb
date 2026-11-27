@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ImpactBanner from "../components/events/ImpactBanner";
 import EventTimeline from "../components/events/EventTimeline";
 import EventGalleryCarousel from "../components/media/EventGalleryCarousel";
@@ -17,9 +17,49 @@ import {
 /** Gallery tabs: every event (newest first), then the app's features. */
 const GALLERY_TABS = [...EVENTS_NEWEST_FIRST, FEATURES_GALLERY];
 
+/** "#gallery-2025" → that event's tab (links from reports point here), else null. */
+function tabFromHash() {
+  const slug = window.location.hash.match(/^#gallery-(.+)$/)?.[1];
+  return GALLERY_TABS.find((e) => e.slug === slug)?.tab ?? null;
+}
+
+/** Scrolls to the gallery once the page's images have loaded, so the target does not move. */
+function scrollToGallery() {
+  const go = () =>
+    setTimeout(
+      () => document.getElementById("gallery")?.scrollIntoView({ behavior: "smooth" }),
+      100,
+    );
+  if (document.readyState === "complete") go();
+  else window.addEventListener("load", go, { once: true });
+}
+
 export default function RecentEvents() {
   const isMobile = useIsMobile();
   const [selectedTab, setSelectedTab] = useState(null); // expanded timeline card
+  // Tab the gallery should jump to; a new object each time so repeats still apply.
+  // `hold` (from a #gallery-<slug> link) keeps the gallery on that event until the visitor moves it.
+  const [galleryRequest, setGalleryRequest] = useState(() => {
+    const tab = tabFromHash();
+    return tab && { tab, hold: true };
+  });
+
+  useEffect(() => {
+    const follow = () => {
+      const tab = tabFromHash();
+      if (!tab) return;
+      setGalleryRequest({ tab, hold: true });
+      scrollToGallery();
+    };
+    if (tabFromHash()) scrollToGallery();
+    window.addEventListener("hashchange", follow);
+    return () => window.removeEventListener("hashchange", follow);
+  }, []);
+
+  const selectEvent = useCallback((tab) => {
+    setSelectedTab(tab);
+    if (tab) setGalleryRequest({ tab });
+  }, []);
   const [lightbox, setLightbox] = useState(null); // { items, i } | null
 
   const closeLightbox = useCallback(() => setLightbox(null), []);
@@ -55,7 +95,7 @@ export default function RecentEvents() {
         <EventTimeline
           events={EVENTS_NEWEST_FIRST}
           selectedTab={selectedTab}
-          onSelect={setSelectedTab}
+          onSelect={selectEvent}
         />
       </div>
 
@@ -71,7 +111,7 @@ export default function RecentEvents() {
 
         <EventGalleryCarousel
           events={GALLERY_TABS}
-          requestedTab={selectedTab}
+          request={galleryRequest}
           isMobile={isMobile}
           onOpen={(items, i) => setLightbox({ items, i })}
         />

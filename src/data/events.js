@@ -19,6 +19,7 @@ export const EVENTS = [
     n: 1,
     when: "2025",
     tab: "2025",
+    slug: "2025", // deep link: /pandawb/#gallery-2025
     platform: "Panda Android App",
     title: "82 trees planted & 53 tracked on the Panda Android Mobile App",
     text: "Partnered with Whispers (a Kibera seedling farmer) and the BV Nairobi West hub for a real-world planting drive. Together we planted 82 trees and uploaded 53 onto Panda for live tracking.",
@@ -32,6 +33,7 @@ export const EVENTS = [
     n: 2,
     when: "July 2026",
     tab: "July 2026",
+    slug: "2026-july", // deep link: /pandawb/#gallery-2026-july
     platform: "Panda Android App v3",
     title: "69 trees planted and 22 tracked on Panda Android App Version 3",
     text: "Partnered with Rotaract Eco-Warriors and JEMA (JKUAT Environmental) Club and planted 69 trees at JKUAT Primary School.",
@@ -45,6 +47,7 @@ export const EVENTS = [
     n: 3,
     when: "September 2026 · Mazingira Day",
     tab: "Sept 2026",
+    slug: "2026-sept", // deep link: /pandawb/#gallery-2026-sept
     platform: "Panda PWA",
     title: "77 trees planted and 41 tracked on our new cross-platform PWA",
     text: "Planted 77 trees and tracked 41 in collaboration with WhisperChampions, maida_cbo and the BV Nairobi Westlands Local Hub. This was our first cross-platform MVP, working for both Android and iPhone users.",
@@ -58,6 +61,7 @@ export const EVENTS = [
     n: 4,
     when: "October 2026 · Mazingira Day",
     tab: "Oct 2026",
+    slug: "2026-oct", // deep link: /pandawb/#gallery-2026-oct
     platform: "Panda PWA",
     title: "213 trees planted and 101 tracked on the PWA",
     text: "Partnered with JEMA Club JKUAT, UCESCO JKUAT and about 6 more student clubs and organisations to plant 213 trees and track 101 in our most successful planting event yet. A big day with an MC and snacks to keep the planting fun and interactive.",
@@ -92,6 +96,7 @@ export const EVENTS = [
 /** Extra gallery tab (not an event): a phone wall of the app's latest screens. */
 export const FEATURES_GALLERY = {
   tab: "What's New!",
+  slug: "whats-new",
   when: "What's New!",
   layout: "phones",
   videos: [],
